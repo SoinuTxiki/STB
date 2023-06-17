@@ -4,7 +4,7 @@ STB is a virtual MIDI keyboard and a accordion for Windows.
 
 You can use STB to Play accordion with computer keyboard or MIDI keyboard with any vst instrument you like, or output through MIDI, or generate any MIDI message with any key on the keyboard. You can also record your song and export a MP4 movie to share with your friends.
 
-![ScreenShot](res/screenshot.jpg)
+![ScreenShot](res/screenshot.png)
 
 ## Features of STB:
 
