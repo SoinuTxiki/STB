@@ -1,112 +1,833 @@
-FreePiano 1.8
-
-sustain in_0 set 127
-velocity in_0 set 80
-velocity in_1 set 100
-
-#	keyname	action	channel	note
-keydown	left	NoteOn	in_1	c3
-keydown	down	NoteOn	in_1	d3
-keydown	right	NoteOn	in_1	e3
-keydown	up	NoteOn	in_1	f3
-keydown	num0	NoteOn	in_1	g3
-keydown	num.	NoteOn	in_1	a3
-keydown	numenter	NoteOn	in_1	b3
-keydown	num1	NoteOn	in_1	c4
-keydown	num2	NoteOn	in_1	d4
-keydown	num3	NoteOn	in_1	e4
-keydown	num4	NoteOn	in_1	f4
-keydown	num5	NoteOn	in_1	g4
-keydown	num6	NoteOn	in_1	a4
-keydown	num7	NoteOn	in_1	b4
-keydown	num8	NoteOn	in_1	c5
-keydown	num9	NoteOn	in_1	d5
-keydown	num+	NoteOn	in_1	e5
-keydown	numlock	NoteOn	in_1	f5
-keydown	num/	NoteOn	in_1	g5
-keydown	num*	NoteOn	in_1	a5
-keydown	num-	NoteOn	in_1	b5
-keydown	delete	NoteOn	in_1	c6
-keydown	end	NoteOn	in_1	d6
-keydown	pgdn	NoteOn	in_1	e6
-keydown	insert	NoteOn	in_1	f6
-keydown	home	NoteOn	in_1	g6
-keydown	pgup	NoteOn	in_1	a6
-
-keydown	shift	NoteOn	in_0	b1
-keydown	z	NoteOn	in_0	c2
-keydown	x	NoteOn	in_0	d2
-keydown	c	NoteOn	in_0	e2
-keydown	v	NoteOn	in_0	f2
-keydown	b	NoteOn	in_0	g2
-keydown	n	NoteOn	in_0	a2
-keydown	m	NoteOn	in_0	b2
-keydown	,	NoteOn	in_0	c3
-keydown	.	NoteOn	in_0	d3
-keydown	/	NoteOn	in_0	e3
-keydown	rshift	NoteOn	in_0	f3
-
-keydown	caps	NoteOn	in_0	b2
-keydown	a	NoteOn	in_0	c3
-keydown	s	NoteOn	in_0	d3
-keydown	d	NoteOn	in_0	e3
-keydown	f	NoteOn	in_0	f3
-keydown	g	NoteOn	in_0	g3
-keydown	h	NoteOn	in_0	a3
-keydown	j	NoteOn	in_0	b3
-keydown	k	NoteOn	in_0	c4
-keydown	l	NoteOn	in_0	d4
-keydown	;	NoteOn	in_0	e4
-keydown	'	NoteOn	in_0	f4
-keydown	enter	NoteOn	in_0	g4
-
-keydown	tab	NoteOn	in_0	b3
-keydown	q	NoteOn	in_0	c4
-keydown	w	NoteOn	in_0	d4
-keydown	e	NoteOn	in_0	e4
-keydown	r	NoteOn	in_0	f4
-keydown	t	NoteOn	in_0	g4
-keydown	y	NoteOn	in_0	a4
-keydown	u	NoteOn	in_0	b4
-keydown	i	NoteOn	in_0	c5
-keydown	o	NoteOn	in_0	d5
-keydown	p	NoteOn	in_0	e5
-keydown	[	NoteOn	in_0	f5
-keydown	]	NoteOn	in_0	g5
-keydown	\	NoteOn	in_0	a5
-
-keydown	`	NoteOn	in_0	b4
-keydown	1	NoteOn	in_0	c5
-keydown	2	NoteOn	in_0	d5
-keydown	3	NoteOn	in_0	e5
-keydown	4	NoteOn	in_0	f5
-keydown	5	NoteOn	in_0	g5
-keydown	6	NoteOn	in_0	a5
-keydown	7	NoteOn	in_0	b5
-keydown	8	NoteOn	in_0	c6
-keydown	9	NoteOn	in_0	d6
-keydown	0	NoteOn	in_0	e6
-keydown	-	NoteOn	in_0	f6
-keydown	=	NoteOn	in_0	g6
-keydown	back	NoteOn	in_0	a6
-
-keydown	F1	Group		Inc	1
-keydown	F2	Group		Dec	1
-keydown	F3	KeySignature	Inc	1
-keydown	F4	KeySignature	Dec	1
-
-keydown	F5	Octave	in_0	Inc	1
-keydown	F6	Octave	in_0	Dec	1
-keydown	F7	Octave	in_1	Inc	1
-keydown	F8	Octave	in_1	Dec	1
-
-keydown	F9	Velocity	in_0	Inc	1
-keydown	F10	Velocity	in_0	Dec	1
-keydown	F11	Velocity	in_1	Inc	1
-keydown	F12	Velocity	in_1	Dec	1
-
-keydown	ScrollLock	Record
-keydown	PrintScreen	Play
-keydown	Pause	Stop
-
-label	space	FreePiano
+GroupCount	4					
+Group	Set	1				
+KeySignature Set 0						
+Keydown	Right	Group	Inc	2	
+Label	Right	R.ON				
+color	Right	0	255	0		
+Keydown	End	KeySignature	Set 2			
+Label	End		La			
+color	End	0	255	0		
+Keydown	PgDn	KeySignature	Set	5		
+Label	PgDn	Do			
+color	PgDn	0	255	0		
+Keydown	PgUp	Octave In_1	Dec 1	
+Keydown	PgUp	Octave In_2	Dec 1	
+Keydown	PgUp	Octave In_3	Dec 1	
+Keydown	PgUp	Octave In_4	Dec 1	
+Keydown	PgUp	Octave In_5	Dec 1		
+Label	PgUp	O_L-				
+color	PgUp	0	255	0		
+Keydown	Home	Octave In_0	Dec 1		
+Label	Home	O_R-				
+color	Home	0	255	0		
+Keydown	Delete	KeySignature	dec	1	
+Label	Delete	T-1/2				
+color	Delete	0	255	0		
+Sustain	Out_0	Set	44			
+Keydown	Esc	Note	In_0	G7	 127
+color	Esc	0	255	0		
+Keydown	F1	Note	In_0	D6 127	
+color	F1	0	255	0		
+Keydown	F2	Note	In_0	B5 127	
+color	F2	0	255	0		
+Keydown	F3	Note	In_0	G5 127	
+color	F3	0	255	0		
+Keydown	F4	Note	In_0	D5 127	
+color	F4	0	255	0		
+Keydown	F5	Note	In_0	B4 127	
+color	F5	0	255	0		
+Keydown	F6	Note	In_0	G4 127	
+color	F6	0	255	0		
+Keydown	F7	Note	In_0	D4 127	
+color	F7	0	255	0		
+Keydown	F8	Note	In_0	B3 127	
+color	F8	0	255	0		
+Keydown	F9	Note	In_0	G3 127	
+color	F9	0	255	0		
+Keydown	F10	Note	In_0	D3 127	
+color	F10	0	255	0		
+Keydown	F11	Note	In_0	C#4 127	
+color	F11	0	255	0		
+Keydown	F12	Note	In_0	A#3 127	
+color	F12	0	255	0		
+Keydown	~	Note	In_0	C7 127	
+color	~	0	255	0		
+Keydown	1	Note	In_0	G6 127	
+color	1	0	255	0		
+Keydown	2	Note	In_0	E6 127	
+color	2	0	255	0		
+Keydown	3	Note	In_0	C6 127	
+color	3	0	255	0		
+Keydown	4	Note	In_0	G5 127	
+color	4	0	255	0		
+Keydown	5	Note	In_0	E5 127	
+color	5	0	255	0		
+Keydown	6	Note	In_0	C5 127	
+color	6	0	255	0		
+Keydown	7	Note	In_0	G4 127	
+color	7	0	255	0		
+Keydown	8	Note	In_0	E4 127	
+color	8	0	255	0		
+Keydown	9	Note	In_0	C4 127	
+color	9	0	255	0		
+Keydown	0	Note	In_0	G3 127	
+color	0	0	255	0		
+Keydown	-	Note	In_0	A#4 127	
+color	-	0	255	0		
+Keydown	=	Note	In_0	C#5 127	
+color	=	0	255	0		
+Keydown	T	Note	In_0	G#6 127	
+color	T	0	255	0		
+Keydown	Q	Note	In_0	D#6 127	
+color	Q	0	255	0		
+Keydown	W	Note	In_0	C#6 127	
+color	W	0	255	0		
+Keydown	E	Note	In_0	A#5 127	
+color	E	0	255	0		
+Keydown	R	Note	In_0	G#5 127	
+color	R	0	255	0		
+Keydown	T	Note	In_0	D#5 127	
+color	T	0	255	0		
+Keydown	Y	Note	In_0	C#5 127	
+color	Y	0	255	0		
+Keydown	U	Note	In_0	A#4 127	
+color	U	0	255	0		
+Keydown	I	Note	In_0	G#4 127	
+color	I	0	255	0		
+Keydown	O	Note	In_0	D#4 127	
+color	O	0	255	0		
+Keydown	P	Note	In_0	C#4 127	
+color	P	0	255	0		
+Keydown	{	Note	In_0	A#3 127	
+color	{	0	255	0		
+Keydown	}	Note	In_0	G#3 127	
+color	}	0	255	0		
+Keydown	|	Note	In_0	D#3 127	
+color	|	0	255	0		
+//Keydown	Space	Group	Inc	1		
+//Keydown	RAlt	Group	Inc	1		
+Keyup	Space	Group	Set	0		
+color	Space	0	255	0		
+Keyup	RAlt	Group	Set	0		
+color	RAlt	0	255	0		
+Label	Space	HAUSPOA	ITXIZ			
+Keydown	c	Note	In_5	C3	127	
+color	c	0	255	0		
+Keydown	c	Note	In_1	C2	127	
+color	c	0	255	0		
+Keydown	v	Note	In_2	E2 127	
+color	v	0	255	0		
+Keydown	v	Note	In_4	G2 127	
+color	v	0	255	0		
+Keydown	h	Note	In_5	D3	127	
+color	h	0	255	0		
+Keydown	h	Note	In_1	D2 127	
+color	h	0	255	0		
+Keydown	j	Note	In_2	F#2 127	
+color	j	0	255	0		
+Keydown	j	Note	In_4	A2 127	
+color	j	0	255	0		
+Keydown	m	Note	In_5	E3	127	
+color	m	0	255	0		
+Keydown	m	Note	In_1	E2 127	
+color	m	0	255	0		
+Keydown	,	Note	In_2	G#2 127	
+color	,	0	255	0		
+Keydown	,	Note	In_4	B2 127	
+color	,	0	255	0		
+Keydown	f	Note	In_5	F3	127	
+color	f	0	255	0		
+Keydown	f	Note	In_1	F2 127	
+Keydown	g	Note	In_2	A2 127	
+color	g	0	255	0		
+Keydown	g	Note	In_4	C3 127	
+Keydown	b	Note	In_5	G3	127	
+color	b	0	255	0		
+Keydown	b	Note	In_1	G2 127	
+Keydown	n	Note	In_2	B2 127	
+color	n	0	255	0		
+Keydown	n	Note	In_4	D3 127	
+Keydown	k	Note	In_5	A3	127	
+color	k	0	255	0		
+Keydown	k	Note	In_1	A2 127	
+Keydown	l	Note	In_3	C3	126	
+color	l	0	255	0		
+Keydown	l	Note	In_4	E3 127	
+keydown	Num0	note	In_0	G3 127	
+color	Num0	0	255	0		
+keydown	Num0	note	In_0	G2 127	
+keydown	Num0	note	In_1	G0	127	
+keydown	Num.	note	In_0	C3 127	
+color	Num.	0	255	0		
+keydown	Num.	note	In_0	C2 127	
+keydown	Num.	note	In_1	C0	127	
+						
+Group	Set	2				
+KeySignature Set 0					
+Keydown	Right	Group	Dec	2	
+Label	Right	R.OFF				
+color	Right	0	255	0		
+Keydown	End	KeySignature	Set 0			
+Label	End		Sol		
+color	End	0	255	0		
+Keydown	PgDn	KeySignature	Set	3		
+Label	PgDn	Sib				
+color	PgDn	0	255	0		
+Keydown	PgUp	Octave In_1	Inc 1	
+Keydown	PgUp	Octave In_2	Inc 1	
+Keydown	PgUp	Octave In_3	Inc 1	
+Keydown	PgUp	Octave In_4	Inc 1	
+Keydown	PgUp	Octave In_5	Inc 1				
+Label	PgUp	O_L+				
+color	PgUp	0	255	0		
+Keydown	Home	Octave In_0	Inc 1		
+Label	Home	O_R+				
+color	Home	0	255	0		
+Keydown	Delete	KeySignature	Inc 1	
+Label	Delete	T+1/2				
+color	Delete	0	255	0			
+Sustain	Out_0	Set	44			
+Keydown	Esc	Note	In_0	C6 127	
+color	Esc	255	0	0		
+Keydown	Esc	Note	In_0	C5	100	
+						
+Keydown	F1	Note	In_0	A5 127	
+color	F1	255	0	0		
+Keydown	F1	Note	In_0	A4	100	
+						
+Keydown	F2	Note	In_0	F#5 127	
+color	F2	255	0	0		
+Keydown	F2	Note	In_0	F#4	100	
+						
+Keydown	F3	Note	In_0	E5 127	
+color	F3	255	0	0		
+Keydown	F3	Note	In_0	E4	100	
+						
+Keydown	F4	Note	In_0	C5 127	
+color	F4	255	0	0		
+Keydown	F4	Note	In_0	C4	100	
+						
+Keydown	F5	Note	In_0	A4 127	
+color	F5	255	0	0		
+Keydown	F5	Note	In_0	A3	100	
+						
+Keydown	F6	Note	In_0	F#4 127	
+color	F6	255	0	0		
+Keydown	F6	Note	In_0	F#3	100	
+						
+Keydown	F7	Note	In_0	E4 127	
+color	F7	255	0	0		
+Keydown	F7	Note	In_0	E3	100	
+						
+Keydown	F8	Note	In_0	C4 127	
+color	F8	255	0	0		
+Keydown	F8	Note	In_0	C3	100	
+						
+Keydown	F9	Note	In_0	A3 127	
+color	F9	255	0	0		
+Keydown	F9	Note	In_0	A2	100	
+						
+Keydown	F10	Note	In_0	F#3 127	
+color	F10	255	0	0		
+Keydown	F10	Note	In_0	F#2	100	
+						
+Keydown	F11	Note	In_0	D#4 127	
+color	F11	255	0	0		
+Keydown	F11	Note	In_0	D#3	100	
+						
+Keydown	F12	Note	In_0	G#3 127	
+color	F12	255	0	0		
+Keydown	F12	Note	In_0	G#2	100	
+						
+Keydown	~	Note	In_0	F6 127	
+color	~	255	0	0		
+Keydown	~	Note	In_0	F5	100	
+						
+Keydown	1	Note	In_0	D6 127	
+color	1	255	0	0		
+Keydown	1	Note	In_0	D5		100
+						
+Keydown	2	Note	In_0	B5 127	
+color	2	255	0	0		
+Keydown	2	Note	In_0	B4	100	
+						
+Keydown	3	Note	In_0	A5 127	
+color	3	255	0	0		
+Keydown	3	Note	In_0	A4	100	
+						
+Keydown	4	Note	In_0	F5 127	
+color	4	255	0	0		
+Keydown	4	Note	In_0	F4	100	
+						
+Keydown	5	Note	In_0	D5 127	
+color	5	255	0	0		
+Keydown	5	Note	In_0	D4	100	
+						
+Keydown	6	Note	In_0	B4 127	
+color	6	255	0	0		
+Keydown	6	Note	In_0	B3	100	
+						
+Keydown	7	Note	In_0	A4 127	
+color	7	255	0	0		
+Keydown	7	Note	In_0	A3	100	
+						
+Keydown	8	Note	In_0	F4 127	
+color	8	255	0	0		
+Keydown	8	Note	In_0	F3	100	
+						
+Keydown	9	Note	In_0	D4 127	
+color	9	255	0	0		
+Keydown	9	Note	In_0	D3	100	
+						
+Keydown	0	Note	In_0	B3 127	
+color	0	255	0	0		
+Keydown	0	Note	In_0	B2	100	
+						
+Keydown	-	Note	In_0	G#4 127	
+color	-	255	0	0		
+Keydown	-	Note	In_0	G#3	100	
+						
+Keydown	=	Note	In_0	D#5 127	
+color	=	255	0	0		
+Keydown	=	Note	In_0	D#4	100	
+						
+Keydown	T	Note	In_0	G#6 127	
+color	T	255	0	0		
+Keydown	T	Note	In_0	G#5	100	
+						
+Keydown	Q	Note	In_0	D#6 127	
+color	Q	255	0	0		
+Keydown	Q	Note	In_0	D#5	100	
+						
+Keydown	W	Note	In_0	C#6 127	
+color	W	255	0	0		
+Keydown	W	Note	In_0	C#5	100	
+						
+Keydown	E	Note	In_0	A#5 127	
+color	E	255	0	0		
+Keydown	E	Note	In_0	A#4	100	
+						
+Keydown	R	Note	In_0	G#5 127	
+color	R	255	0	0		
+Keydown	R	Note	In_0	G#4	100	
+						
+Keydown	T	Note	In_0	D#5 127	
+color	T	255	0	0		
+Keydown	T	Note	In_0	D#4	100	
+						
+Keydown	Y	Note	In_0	C#5 127	
+color	Y	255	0	0		
+Keydown	Y	Note	In_0	C#4	100	
+						
+Keydown	U	Note	In_0	A#4 127	
+color	U	255	0	0		
+Keydown	U	Note	In_0	A#3	100	
+						
+Keydown	I	Note	In_0	G#4 127	
+color	I	255	0	0		
+Keydown	I	Note	In_0	G#3	100	
+						
+Keydown	O	Note	In_0	D#4 127	
+color	O	255	0	0		
+Keydown	O	Note	In_0	D#3	100	
+						
+Keydown	P	Note	In_0	C#4 127	
+color	P	255	0	0		
+Keydown	P	Note	In_0	C#3	100	
+						
+Keydown	{	Note	In_0	A#3 127	
+color	{	255	0	0		
+Keydown	{	Note	In_0	A#2	100	
+						
+Keydown	}	Note	In_0	G#3 127	
+color	}	255	0	0		
+Keydown	}	Note	In_0	G#2	100	
+						
+Keydown	|	Note	In_0	D#3 127	
+color	|	255	0	0		
+Keydown	|	Note	In_0	D#2	100	
+						
+Keydown	Space	Group	Set	3		
+color	Space	255	0	0		
+Keydown	RAlt	Group	Set	3		
+color	RAlt	255	0	0		
+//Keyup	Space	Group	Dec	1		
+						
+//Keyup	RAlt	Group	Dec	1		
+						
+Label	Space	HAUSPOA	IREKIZ			
+						
+Keydown	c	Note	In_5	C3	127	
+color	c	255 0 0	
+Keydown	c	Note	In_1	C2	127	
+color	c	255 0 0	
+Keydown	v	Note	In_2	E2 127	
+color	v	255 0 0	
+Keydown	v	Note	In_4	G2 127	
+color	v	255 0 0	
+Keydown	h	Note	In_5	D3	127	
+color	h	255 0 0	
+Keydown	h	Note	In_1	D2 127	
+color	h	255 0 0	
+Keydown	j	Note	In_2	F#2 127	
+color	j	255 0 0	
+Keydown	j	Note	In_4	A2 127	
+color	j	255 0 0	
+Keydown	m	Note	In_5	E3	127	
+color	m	255 0 0	
+Keydown	m	Note	In_1	E2 127	
+color	m	255 0 0	
+Keydown	,	Note	In_2	G#2 127	
+color	,	255 0 0	
+Keydown	,	Note	In_4	B2 127	
+color	,	255 0 0	
+Keydown	f	Note	In_5	F3	127	
+color	f	255 0 0	
+Keydown	f	Note	In_1	F2 127	
+Keydown	g	Note	In_2	A2 127	
+color	g	255 0 0	
+Keydown	g	Note	In_4	C3 127	
+Keydown	b	Note	In_5	G3	127	
+color	b	255 0 0	
+Keydown	b	Note	In_1	G2 127	
+Keydown	n	Note	In_2	B2 127	
+color	n	255 0 0	
+Keydown	n	Note	In_4	D3 127	
+Keydown	k	Note	In_5	A3	127	
+color	k	255 0 0	
+Keydown	k	Note	In_1	A2 127	
+Keydown	l	Note	In_3	C3	126	
+color	l	255 0 0	
+Keydown	l	Note	In_4	E3 127	
+keydown	Num0	note	In_0	G3 127	
+color	Num0	255 0 0	
+keydown	Num0	note	In_0	G2 127	
+keydown	Num0	note	In_1	G0	127	
+keydown	Num.	note	In_0	C3 127	
+color	Num.	255 0 0	
+keydown	Num.	note	In_0	C2 127	
+keydown	Num.	note	In_1	C0	127							
+						
+						
+Group	Set	3				
+						
+KeySignature Set 0					
+Keydown	Right	Group	Dec	2	
+Label	Right	R.OFF				
+color	Right	0	255	0		
+Keydown	End	KeySignature	Set 2			
+Label	End		La			
+color	End	0	255	0		
+Keydown	PgDn	KeySignature	Set	5		
+Label	PgDn	Do				
+color	PgDn	0	255	0		
+Keydown	PgUp	Octave In_1	Dec 1		
+Keydown	PgUp	Octave In_2	Dec 1		
+Keydown	PgUp	Octave In_3	Dec 1		
+Keydown	PgUp	Octave In_4	Dec 1		
+Keydown	PgUp	Octave In_5	Dec 1		
+Label	PgUp	O_L-				
+color	PgUp	0	255	0		
+Keydown	Home	Octave In_0	Dec 1		
+Label	Home	O_R-				
+color	Home	0	255	0		
+Keydown	Delete	KeySignature	dec	1	
+Label	Delete	T-1/2				
+color	Delete	0	255	0			
+						
+Sustain	Out_0	Set	44			
+						
+Keydown	Esc	Note	In_0	G6 127	
+color	Esc	0	255	0		
+Keydown	Esc	Note	In_0	G5	100	
+						
+Keydown	F1	Note	In_0	D6 127	
+color	F1	0	255	0		
+Keydown	F1	Note	In_0	D5	100	
+						
+Keydown	F2	Note	In_0	B5 127	
+color	F2	0	255	0		
+Keydown	F2	Note	In_0	B4	100	
+						
+Keydown	F3	Note	In_0	G5 127	
+color	F3	0	255	0		
+Keydown	F3	Note	In_0	G4	100	
+						
+Keydown	F4	Note	In_0	D5 127	
+color	F4	0	255	0		
+Keydown	F4	Note	In_0	D4	100	
+						
+Keydown	F5	Note	In_0	B4 127	
+color	F5	0	255	0		
+Keydown	F5	Note	In_0	B3	100	
+						
+Keydown	F6	Note	In_0	G4 127	
+color	F6	0	255	0		
+Keydown	F6	Note	In_0	G3	100	
+						
+Keydown	F7	Note	In_0	D4 127	
+color	F7	0	255	0		
+Keydown	F7	Note	In_0	D3	100	
+						
+Keydown	F8	Note	In_0	B3 127	
+color	F8	0	255	0		
+Keydown	F8	Note	In_0	B2	100	
+						
+Keydown	F9	Note	In_0	G3 127	
+color	F9	0	255	0		
+Keydown	F9	Note	In_0	G2	100	
+						
+Keydown	F10	Note	In_0	D3 127	
+color	F10	0	255	0		
+Keydown	F10	Note	In_0	D2	100	
+						
+Keydown	F11	Note	In_0	C#4 127	
+color	F11	0	255	0		
+Keydown	F11	Note	In_0	C#3	100	
+						
+Keydown	F12	Note	In_0	A#3 127	
+color	F12	0	255	0		
+Keydown	F12	Note	In_0	A#2	100	
+						
+Keydown	~	Note	In_0	C7 127	
+color	~	0	255	0		
+Keydown	~	Note	In_0	C6	100	
+						
+Keydown	1	Note	In_0	G6 127	
+color	1	0	255	0		
+Keydown	1	Note	In_0	G5	100	
+						
+Keydown	2	Note	In_0	E6 127	
+color	2	0	255	0		
+Keydown	2	Note	In_0	E5	100	
+						
+Keydown	3	Note	In_0	C6 127	
+color	3	0	255	0		
+Keydown	3	Note	In_0	C5	100	
+						
+Keydown	4	Note	In_0	G5 127	
+color	4	0	255	0		
+Keydown	4	Note	In_0	G4	100	
+						
+Keydown	5	Note	In_0	E5 127	
+color	5	0	255	0		
+Keydown	5	Note	In_0	E4	100	
+						
+Keydown	6	Note	In_0	C5 127	
+color	6	0	255	0		
+Keydown	6	Note	In_0	C4	100	
+						
+Keydown	7	Note	In_0	G4 127	
+color	7	0	255	0		
+Keydown	7	Note	In_0	G3	100	
+						
+Keydown	8	Note	In_0	E4 127	
+color	8	0	255	0		
+Keydown	8	Note	In_0	E3	100	
+						
+Keydown	9	Note	In_0	C4 127	
+color	9	0	255	0		
+Keydown	9	Note	In_0	C3	100	
+						
+Keydown	0	Note	In_0	G3 127	
+color	0	0	255	0		
+Keydown	0	Note	In_0	G2	100	
+						
+Keydown	-	Note	In_0	A#4 127	
+color	-	0	255	0		
+Keydown	-	Note	In_0	A#3	100	
+						
+Keydown	=	Note	In_0	C#5 127	
+color	=	0	255	0		
+Keydown	=	Note	In_0	C#4	100	
+						
+Keydown	T	Note	In_0	G#6 127	
+color	T	0	255	0		
+Keydown	T	Note	In_0	G#5	100	
+						
+Keydown	Q	Note	In_0	D#6 127	
+color	Q	0	255	0		
+Keydown	Q	Note	In_0	D#5	100	
+						
+Keydown	W	Note	In_0	C#6 127	
+color	W	0	255	0		
+Keydown	W	Note	In_0	C#5	100	
+						
+Keydown	E	Note	In_0	A#5 127	
+color	E	0	255	0		
+Keydown	E	Note	In_0	A#4	100	
+						
+Keydown	R	Note	In_0	G#5 127	
+color	R	0	255	0		
+Keydown	R	Note	In_0	G#4	100	
+						
+Keydown	T	Note	In_0	D#5 127	
+color	T	0	255	0		
+Keydown	T	Note	In_0	D#4	100	
+						
+Keydown	Y	Note	In_0	C#5 127	
+color	Y	0	255	0		
+Keydown	Y	Note	In_0	C#4	100	
+						
+Keydown	U	Note	In_0	A#4 127	
+color	U	0	255	0		
+Keydown	U	Note	In_0	A#3	100	
+						
+Keydown	I	Note	In_0	G#4 127	
+color	I	0	255	0		
+Keydown	I	Note	In_0	G#3	100	
+						
+Keydown	O	Note	In_0	D#4 127	
+color	O	0	255	0		
+Keydown	O	Note	In_0	D#3	100	
+						
+Keydown	P	Note	In_0	C#4 127	
+color	P	0	255	0		
+Keydown	P	Note	In_0	C#3	100	
+						
+Keydown	{	Note	In_0	A#3 127	
+color	{	0	255	0		
+Keydown	{	Note	In_0	A#2	100	
+						
+Keydown	}	Note	In_0	G#3 127	
+color	}	0	255	0		
+Keydown	}	Note	In_0	G#2	100	
+						
+Keydown	|	Note	In_0	D#3 127	
+color	|	0	255	0		
+Keydown	|	Note	In_0	D#2	100	
+						
+//Keydown	Space	Group	Inc	1		
+						
+//Keydown	RAlt	Group	Inc	1		
+						
+Keyup	Space	Group	Set	2		
+color	Space	0	255	0		
+Keyup	RAlt	Group	Set	2		
+color	RAlt	0	255	0		
+Label	Space	HAUSPOA	ITXIZ			
+						
+Keydown	c	Note	In_5	C3	127	
+color	c	0	255	0		
+Keydown	c	Note	In_1	C2	127	
+color	c	0	255	0		
+Keydown	v	Note	In_2	E2 127	
+color	v	0	255	0		
+Keydown	v	Note	In_4	G2 127	
+color	v	0	255	0		
+Keydown	h	Note	In_5	D3	127	
+color	h	0	255	0		
+Keydown	h	Note	In_1	D2 127	
+color	h	0	255	0		
+Keydown	j	Note	In_2	F#2 127	
+color	j	0	255	0		
+Keydown	j	Note	In_4	A2 127	
+color	j	0	255	0		
+Keydown	m	Note	In_5	E3	127	
+color	m	0	255	0		
+Keydown	m	Note	In_1	E2 127	
+color	m	0	255	0		
+Keydown	,	Note	In_2	G#2 127	
+color	,	0	255	0		
+Keydown	,	Note	In_4	B2 127	
+color	,	0	255	0		
+Keydown	f	Note	In_5	F3	127	
+color	f	0	255	0		
+Keydown	f	Note	In_1	F2 127	
+Keydown	g	Note	In_2	A2 127	
+color	g	0	255	0		
+Keydown	g	Note	In_4	C3 127	
+Keydown	b	Note	In_5	G3	127	
+color	b	0	255	0		
+Keydown	b	Note	In_1	G2 127	
+Keydown	n	Note	In_2	B2 127	
+color	n	0	255	0		
+Keydown	n	Note	In_4	D3 127	
+Keydown	k	Note	In_5	A2	127	
+color	k	0	255	0		
+Keydown	k	Note	In_1	A2 127	
+Keydown	l	Note	In_3	C3	126	
+color	l	0	255	0		
+Keydown	l	Note	In_4	E3 127	
+keydown	Num0	note	In_0	G3 127	
+color	Num0	0	255	0		
+keydown	Num0	note	In_0	G2 127	
+keydown	Num0	note	In_1	G0	127	
+keydown	Num.	note	In_0	C3 127	
+color	Num.	0	255	0		
+keydown	Num.	note	In_0	C2 127	
+keydown	Num.	note	In_1	C0	127							
+						
+						
+						
+						
+Group	Set	0				
+						
+KeySignature Set 0				
+						
+Keydown	Right	Group	Inc	2	
+Label	Right	R.ON				
+color	Right	0	255	0		
+Keydown	End	KeySignature	Set 0			
+Label	End		Sol		
+color	End	0	255	0		
+Keydown	PgDn	KeySignature	Set	3		
+Label	PgDn	Sib				
+color	PgDn	0	255	0		
+Keydown	PgUp	Octave In_1	Inc 1	
+Keydown	PgUp	Octave In_2	Inc 1	
+Keydown	PgUp	Octave In_3	Inc 1	
+Keydown	PgUp	Octave In_4	Inc 1	
+Keydown	PgUp	Octave In_5	Inc 1		
+Label	PgUp	O_L+				
+color	PgUp	0	255	0		
+Keydown	Home	Octave In_0	Inc 1		
+Label	Home	O_R+				
+color	Home	0	255	0		
+Keydown	Delete	KeySignature	Inc 1	
+Label	Delete	T+1/2				
+color	Delete	0	255	0					
+Sustain	Out_0	Set	44			
+						
+Keydown	Esc	Note	In_0	C6 127	
+color	Esc	255	0	0		
+Keydown	F1	Note	In_0	A5 127	
+color	F1	255	0	0		
+Keydown	F2	Note	In_0	F#5 127	
+color	F2	255	0	0		
+Keydown	F3	Note	In_0	E5 127	
+color	F3	255	0	0		
+Keydown	F4	Note	In_0	C5 127	
+color	F4	255	0	0		
+Keydown	F5	Note	In_0	A4 127	
+color	F5	255	0	0		
+						
+						
+Keydown	F6	Note	In_0	F#4 127	
+color	F6	255	0	0		
+Keydown	F7	Note	In_0	E4 127	
+color	F7	255	0	0		
+Keydown	F8	Note	In_0	C4 127	
+color	F8	255	0	0		
+Keydown	F9	Note	In_0	A3 127	
+color	F9	255	0	0		
+Keydown	F10	Note	In_0	F#3 127	
+color	F10	255	0	0		
+Keydown	F11	Note	In_0	D#4 127	
+color	F11	255	0	0		
+Keydown	F12	Note	In_0	G#3 127	
+color	F12	255	0	0		
+Keydown	~	Note	In_0	F6 127	
+color	~	255	0	0		
+Keydown	1	Note	In_0	D6 127	
+color	1	255	0	0		
+Keydown	2	Note	In_0	B5 127	
+color	2	255	0	0		
+Keydown	3	Note	In_0	A5 127	
+color	3	255	0	0		
+Keydown	4	Note	In_0	F5 127	
+color	4	255	0	0		
+Keydown	5	Note	In_0	D5 127	
+color	5	255	0	0		
+Keydown	6	Note	In_0	B4 127	
+color	6	255	0	0		
+Keydown	7	Note	In_0	A4 127	
+color	7	255	0	0		
+Keydown	8	Note	In_0	F4 127	
+color	8	255	0	0		
+Keydown	9	Note	In_0	D4 127	
+color	9	255	0	0		
+Keydown	0	Note	In_0	B3 127	
+color	0	255	0	0		
+Keydown	-	Note	In_0	G#4 127	
+color	-	255	0	0		
+Keydown	=	Note	In_0	D#5 127	
+color	=	255	0	0		
+Keydown	T	Note	In_0	G#6 127	
+color	T	255	0	0		
+Keydown	Q	Note	In_0	D#6 127	
+color	Q	255	0	0		
+Keydown	W	Note	In_0	C#6 127	
+color	W	255	0	0		
+Keydown	E	Note	In_0	A#5 127	
+color	E	255	0	0		
+Keydown	R	Note	In_0	G#5 127	
+color	R	255	0	0		
+Keydown	T	Note	In_0	D#5 127	
+color	T	255	0	0		
+Keydown	Y	Note	In_0	C#5 127	
+color	Y	255	0	0		
+Keydown	U	Note	In_0	A#4 127	
+color	U	255	0	0		
+Keydown	I	Note	In_0	G#4 127	
+color	I	255	0	0		
+Keydown	O	Note	In_0	D#4 127	
+color	O	255	0	0		
+Keydown	P	Note	In_0	C#4 127	
+color	P	255	0	0		
+Keydown	{	Note	In_0	A#3 127	
+color	{	255	0	0		
+Keydown	}	Note	In_0	G#3 127	
+color	}	255	0	0		
+Keydown	|	Note	In_0	D#3 127	
+color	|	255	0	0		
+Keydown	Space	Group	Set	1		
+color	Space	255	0	0		
+Keydown	RAlt	Group	Set	1		
+color	RAlt	255	0	0		
+//Keyup	Space	Group	Dec	1		
+						
+//Keyup	RAlt	Group	Dec	1		
+						
+Label	Space	HAUSPOA	IREKIZ			
+						
+Keydown	c	Note	In_5	C3	127	
+color	c	255 0 0	
+Keydown	c	Note	In_1	C2	127	
+color	c	255 0 0	
+Keydown	v	Note	In_2	E2 127	
+color	v	255 0 0	
+Keydown	v	Note	In_4	G2 127	
+color	v	255 0 0	
+Keydown	h	Note	In_5	D3	127	
+color	h	255 0 0	
+Keydown	h	Note	In_1	D2 127	
+color	h	255 0 0	
+Keydown	j	Note	In_2	F#2 127	
+color	j	255 0 0	
+Keydown	j	Note	In_4	A2 127	
+color	j	255 0 0	
+Keydown	m	Note	In_5	E3	127	
+color	m	255 0 0	
+Keydown	m	Note	In_1	E2 127	
+color	m	255 0 0	
+Keydown	,	Note	In_2	G#2 127	
+color	,	255 0 0	
+Keydown	,	Note	In_4	B2 127	
+color	,	255 0 0	
+Keydown	f	Note	In_5	F3	127	
+color	f	255 0 0	
+Keydown	f	Note	In_1	F2 127	
+Keydown	g	Note	In_2	A2 127	
+color	g	255 0 0	
+Keydown	g	Note	In_4	C3 127	
+Keydown	b	Note	In_5	G3	127	
+color	b	255 0 0	
+Keydown	b	Note	In_1	G2 127	
+Keydown	n	Note	In_2	B2 127	
+color	n	255 0 0	
+Keydown	n	Note	In_4	D3 127	
+Keydown	k	Note	In_5	A3	127	
+color	k	255 0 0	
+Keydown	k	Note	In_1	A2 127	
+Keydown	l	Note	In_3	C3	126	
+color	l	255 0 0	
+Keydown	l	Note	In_4	E3 127	
+keydown	Num0	note	In_0	G3 127	
+color	Num0	255 0 0	
+keydown	Num0	note	In_0	G2 127	
+keydown	Num0	note	In_1	G0	127	
+keydown	Num.	note	In_0	C3 127	
+color	Num.	255 0 0	
+keydown	Num.	note	In_0	C2 127	
+keydown	Num.	note	In_1	C0	127	

@@ -170,16 +170,16 @@ static name_t bind_names[] = {
   { "Label",              BIND_TYPE_LABEL },
   { "Color",              BIND_TYPE_COLOR },
 
-  { "键盘按下",            BIND_TYPE_KEYDOWN,     FP_LANG_SCHINESE },
-  { "键盘松开",            BIND_TYPE_KEYUP,       FP_LANG_SCHINESE },
-  { "标签",                BIND_TYPE_LABEL,       FP_LANG_SCHINESE },
-  { "颜色",                BIND_TYPE_COLOR,       FP_LANG_SCHINESE },
+  { "Zapaldu",            BIND_TYPE_KEYDOWN,     FP_LANG_EUS },
+  { "Askatu",            BIND_TYPE_KEYUP,       FP_LANG_EUS },
+  { "Textua",                BIND_TYPE_LABEL,       FP_LANG_EUS },
+  { "Kolorea",                BIND_TYPE_COLOR,       FP_LANG_EUS },
 
   // for compatibility
   { "Key",                BIND_TYPE_KEYDOWN },
 };
 
-static name_t action_names[] = {
+static name_t action_names[] = {//keymapen jarri leizken hitzek
   { "KeySignature",       SM_KEY_SIGNATURE },
   { "Octave",             SM_OCTAVE },
   { "Velocity",           SM_VELOCITY },
@@ -204,28 +204,28 @@ static name_t action_names[] = {
   { "Sustain",            SM_SUSTAIN },
   { "Modulation",         SM_MODULATION },
 
-  { "曲调",               SM_KEY_SIGNATURE,       FP_LANG_SCHINESE },
-  { "八度",               SM_OCTAVE,              FP_LANG_SCHINESE },
-  { "力度",               SM_VELOCITY,            FP_LANG_SCHINESE },
-  { "通道",               SM_CHANNEL,             FP_LANG_SCHINESE },
-  { "移位",               SM_TRANSPOSE,           FP_LANG_SCHINESE },
-  { "跟随曲调",           SM_FOLLOW_KEY,          FP_LANG_SCHINESE },
-  { "总音量",             SM_VOLUME,              FP_LANG_SCHINESE },
-  { "播放",               SM_PLAY,                FP_LANG_SCHINESE },
-  { "录制",               SM_RECORD,              FP_LANG_SCHINESE },
-  { "停止",               SM_STOP,                FP_LANG_SCHINESE },
-  { "分组",               SM_SETTING_GROUP,       FP_LANG_SCHINESE },
-  { "分组总数",           SM_SETTING_GROUP_COUNT, FP_LANG_SCHINESE },
-  { "音符",               SM_NOTE_ON,             FP_LANG_SCHINESE },
-  { "止音",               SM_NOTE_OFF,            FP_LANG_SCHINESE },
-  { "音符力度",           SM_NOTE_PRESSURE,       FP_LANG_SCHINESE },
-  { "通道力度",           SM_PRESSURE,            FP_LANG_SCHINESE },
-  { "弯音",               SM_PITCH,               FP_LANG_SCHINESE },
-  { "乐器",               SM_PROGRAM,             FP_LANG_SCHINESE },
-  { "乐器组1",            SM_BANK_MSB,            FP_LANG_SCHINESE },
-  { "乐器组2",            SM_BANK_LSB,            FP_LANG_SCHINESE },
-  { "延音",               SM_SUSTAIN,             FP_LANG_SCHINESE },
-  { "颤音",               SM_MODULATION,          FP_LANG_SCHINESE },
+  { "Klabea",               SM_KEY_SIGNATURE,       FP_LANG_EUS },
+  { "Oktaba",               SM_OCTAVE,              FP_LANG_EUS },
+  { "Abiadura",               SM_VELOCITY,            FP_LANG_EUS },
+  { "Kanala",               SM_CHANNEL,             FP_LANG_EUS },
+  { "Trasposatu",               SM_TRANSPOSE,           FP_LANG_EUS },
+  { "JarraituGiltza",           SM_FOLLOW_KEY,          FP_LANG_EUS },
+  { "Bolumena",             SM_VOLUME,              FP_LANG_EUS },
+  { "Play",               SM_PLAY,                FP_LANG_EUS },
+  { "REC",               SM_RECORD,              FP_LANG_EUS },
+  { "STOP",               SM_STOP,                FP_LANG_EUS },
+  { "Taldea",               SM_SETTING_GROUP,       FP_LANG_EUS },
+  { "TaldeKopurua",           SM_SETTING_GROUP_COUNT, FP_LANG_EUS },
+  { "NotaON",               SM_NOTE_ON,             FP_LANG_EUS },
+  { "NotaOFF",               SM_NOTE_OFF,            FP_LANG_EUS },
+  { "NotarenPresioa",           SM_NOTE_PRESSURE,       FP_LANG_EUS },
+  { "Presioa",           SM_PRESSURE,            FP_LANG_EUS },
+  { "Tonua",               SM_PITCH,               FP_LANG_EUS },
+  { "Programa",               SM_PROGRAM,             FP_LANG_EUS },
+  { "BankuaMSB",            SM_BANK_MSB,            FP_LANG_EUS },
+  { "BankuaLSB",            SM_BANK_LSB,            FP_LANG_EUS },
+  { "Sustain",               SM_SUSTAIN,             FP_LANG_EUS },
+  { "Modulazioa",               SM_MODULATION,          FP_LANG_EUS },
 
   // pervious names
   { "Octshift",           SM_OCTAVE },
@@ -260,7 +260,7 @@ static name_t note_names[] = {
   { "F#0",                18 },
   { "G0",                 19 },
   { "G#0",                20 },
-  { "A0",                 20 },
+  { "A0",                 21 },
   { "A#0",                22 },
   { "B0",                 23 },
   { "C1",                 24 },
@@ -382,7 +382,7 @@ static name_t note_names[] = {
   { "A10",                140 },
 };
 
-static name_t controller_names[] = {
+static name_t controller_names[] = {//TODO investigate
   { "BankSelect",         0x0 },
   { "Modulation",         0x1 },
   { "BreathControl",      0x2 },
@@ -449,18 +449,18 @@ static name_t value_action_names[] = {
   { "SyncFlip",       0x13 },
   { "SyncPress",      0x14 },
 
-  { "设置为",         0x00,      FP_LANG_SCHINESE },
-  { "增加",           0x01,      FP_LANG_SCHINESE },
-  { "减少",           0x02,      FP_LANG_SCHINESE },
-  { "反转",           0x03,      FP_LANG_SCHINESE },
-  { "脉冲",           0x04,      FP_LANG_SCHINESE },
-  { "设置十位",       0x0a,      FP_LANG_SCHINESE },
-  { "设置个位",       0x0b,      FP_LANG_SCHINESE },
-  { "同步设置",       0x10,      FP_LANG_SCHINESE },
-  { "同步增加",       0x11,      FP_LANG_SCHINESE },
-  { "同步减少",       0x12,      FP_LANG_SCHINESE },
-  { "同步反转",       0x13,      FP_LANG_SCHINESE },
-  { "同步脉冲",       0x14,      FP_LANG_SCHINESE },
+  { "Ezarri",         0x00,      FP_LANG_EUS },
+  { "Handitu",           0x01,      FP_LANG_EUS },
+  { "Txikitu",           0x02,      FP_LANG_EUS },
+  { "Aldatu",           0x03,      FP_LANG_EUS },
+  { "Zapaldu",           0x04,      FP_LANG_EUS },
+  { "Ezarri10",       0x0a,      FP_LANG_EUS },
+  { "Ezarri1",       0x0b,      FP_LANG_EUS },
+  { "SyncEzarri",       0x10,      FP_LANG_EUS },
+  { "SyncHanditu",       0x11,      FP_LANG_EUS },
+  { "SyncTxikitu",       0x12,      FP_LANG_EUS },
+  { "SyncAldatu",       0x13,      FP_LANG_EUS },
+  { "SyncZapaldu",       0x14,      FP_LANG_EUS },
 };
 
 static name_t instrument_type_names[] = {
@@ -538,39 +538,39 @@ static name_t channel_names[] = {
   { "Ch_14",     0x0e },
   { "Ch_15",     0x0f },
 
-  { "输入_0",     0x00,     FP_LANG_SCHINESE },
-  { "输入_1",     0x01,     FP_LANG_SCHINESE },
-  { "输入_2",     0x02,     FP_LANG_SCHINESE },
-  { "输入_3",     0x03,     FP_LANG_SCHINESE },
-  { "输入_4",     0x04,     FP_LANG_SCHINESE },
-  { "输入_5",     0x05,     FP_LANG_SCHINESE },
-  { "输入_6",     0x06,     FP_LANG_SCHINESE },
-  { "输入_7",     0x07,     FP_LANG_SCHINESE },
-  { "输入_8",     0x08,     FP_LANG_SCHINESE },
-  { "输入_9",     0x09,     FP_LANG_SCHINESE },
-  { "输入_10",    0x0a,     FP_LANG_SCHINESE },
-  { "输入_11",    0x0b,     FP_LANG_SCHINESE },
-  { "输入_12",    0x0c,     FP_LANG_SCHINESE },
-  { "输入_13",    0x0d,     FP_LANG_SCHINESE },
-  { "输入_14",    0x0e,     FP_LANG_SCHINESE },
-  { "输入_15",    0x0f,     FP_LANG_SCHINESE },
+  { "In_0",     0x00,     FP_LANG_EUS },
+  { "In_1",     0x01,     FP_LANG_EUS },
+  { "In_2",     0x02,     FP_LANG_EUS },
+  { "In_3",     0x03,     FP_LANG_EUS },
+  { "In_4",     0x04,     FP_LANG_EUS },
+  { "In_5",     0x05,     FP_LANG_EUS },
+  { "In_6",     0x06,     FP_LANG_EUS },
+  { "In_7",     0x07,     FP_LANG_EUS },
+  { "In_8",     0x08,     FP_LANG_EUS },
+  { "In_9",     0x09,     FP_LANG_EUS },
+  { "In_10",    0x0a,     FP_LANG_EUS },
+  { "In_11",    0x0b,     FP_LANG_EUS },
+  { "In_12",    0x0c,     FP_LANG_EUS },
+  { "In_13",    0x0d,     FP_LANG_EUS },
+  { "In_14",    0x0e,     FP_LANG_EUS },
+  { "In_15",    0x0f,     FP_LANG_EUS },
 
-  { "输出_0",     0x10,     FP_LANG_SCHINESE },
-  { "输出_1",     0x11,     FP_LANG_SCHINESE },
-  { "输出_2",     0x12,     FP_LANG_SCHINESE },
-  { "输出_3",     0x13,     FP_LANG_SCHINESE },
-  { "输出_4",     0x14,     FP_LANG_SCHINESE },
-  { "输出_5",     0x15,     FP_LANG_SCHINESE },
-  { "输出_6",     0x16,     FP_LANG_SCHINESE },
-  { "输出_7",     0x17,     FP_LANG_SCHINESE },
-  { "输出_8",     0x18,     FP_LANG_SCHINESE },
-  { "输出_9",     0x19,     FP_LANG_SCHINESE },
-  { "输出_10",    0x1a,     FP_LANG_SCHINESE },
-  { "输出_11",    0x1b,     FP_LANG_SCHINESE },
-  { "输出_12",    0x1c,     FP_LANG_SCHINESE },
-  { "输出_13",    0x1d,     FP_LANG_SCHINESE },
-  { "输出_14",    0x1e,     FP_LANG_SCHINESE },
-  { "输出_15",    0x1f,     FP_LANG_SCHINESE },
+  { "Out_0",     0x10,     FP_LANG_EUS },
+  { "Out_1",     0x11,     FP_LANG_EUS },
+  { "Out_2",     0x12,     FP_LANG_EUS },
+  { "Out_3",     0x13,     FP_LANG_EUS },
+  { "Out_4",     0x14,     FP_LANG_EUS },
+  { "Out_5",     0x15,     FP_LANG_EUS },
+  { "Out_6",     0x16,     FP_LANG_EUS },
+  { "Out_7",     0x17,     FP_LANG_EUS },
+  { "Out_8",     0x18,     FP_LANG_EUS },
+  { "Out_9",     0x19,     FP_LANG_EUS },
+  { "Out_10",    0x1a,     FP_LANG_EUS },
+  { "Out_11",    0x1b,     FP_LANG_EUS },
+  { "Out_12",    0x1c,     FP_LANG_EUS },
+  { "Out_13",    0x1d,     FP_LANG_EUS },
+  { "Out_14",    0x1e,     FP_LANG_EUS },
+  { "Out_15",    0x1f,     FP_LANG_EUS },
 };
 
 // -----------------------------------------------------------------------------------------
@@ -596,6 +596,7 @@ struct global_setting_t {
   uint output_volume;
 
   uint enable_hotkey;
+  uint enable_inactive;
   uint enable_resize;
   uint midi_transpose;
   uint fixed_doh;
@@ -622,13 +623,14 @@ struct global_setting_t {
 
     gui_transparency = 255;
     output_volume = 100;
-    enable_hotkey = true;
+    enable_hotkey = false;
+    enable_inactive = false;
     enable_resize = true;
     midi_transpose = false;
     fixed_doh = false;
-    auto_color = 0;
+    auto_color = 2;
     preview_color = 0;
-    note_display = 0;
+    note_display = 2;
     update_version = 0;
 
     key_fade = 0;
@@ -668,7 +670,7 @@ struct setting_t {
       key_octshift[i] = 0;
       key_transpose[i] = 0;
       key_velocity[i] = 127;
-      key_channel[i] = 0;
+      key_channel[i] = i;//In_x -> Midi ch_x
       follow_key[i] = 1;
 
       midi_program[i] = -1;
@@ -682,7 +684,7 @@ struct setting_t {
 // settings
 static global_setting_t global;
 static setting_t settings[256];
-static uint current_setting = 0;
+uint current_setting = 0; //global
 static uint setting_count = 1;
 
 // song thread lock
@@ -786,15 +788,14 @@ uint config_bind_get_color(byte code) {
 // set key signature
 void config_set_key_signature(char key) {
   thread_lock lock(config_lock);
+  settings[0].key_signature = key; //grupo 0na grupo guztintzat
 
-  settings[current_setting].key_signature = key;
 }
 
 // get key signature
 char config_get_key_signature() {
   thread_lock lock(config_lock);
-
-  return settings[current_setting].key_signature;
+  return settings[0].key_signature;//grupo 0na grupo guztintzat 
 }
 
 // set transpose
@@ -931,8 +932,8 @@ void config_set_controller(byte channel, byte id, byte value) {
 
   channel = config_get_output_channel(channel);
 
-  if (channel < ARRAY_COUNT(settings[current_setting].midi_controller)) {
-    settings[current_setting].midi_controller[channel][id] = value;
+  if (channel < ARRAY_COUNT(settings[0].midi_controller)) {//XAM group 0ko sustain hartu ta aldatu beti
+    settings[0].midi_controller[channel][id] = value;
   }
 }
 
@@ -1364,46 +1365,7 @@ static bool match_event(char **str, key_bind_t *e) {
     break;
 
   case SM_CONTROLLER_DEPRECATED:
-    // before version 1.8 only
-    if (map_version < 0x01080000) {
-      uint ch;
-      uint id;
-      uint value;
-      uint op;
-
-      if (!match_value(str, channel_names, ARRAY_COUNT(channel_names), &ch))
-        return false;
-
-      if (!match_value(str, controller_names, ARRAY_COUNT(controller_names), &id))
-        return false;
-
-      if (!match_change_value(str, &op, &value, NULL, 0))
-        return false;
-
-      // sustain pedal
-      if (id == 64) {
-        if (op == SM_VALUE_FLIP)
-          value = 127;
-
-        action = SM_SUSTAIN;
-        arg1 = ch;
-        arg2 = op;
-        arg3 = value;
-      }
-      // set a controller can be translated to RAW midi message
-      else if (op == SM_VALUE_SET) {
-        action = SM_MIDI_CONTROLLER | (ch & 0x0f);
-        arg1 = id;
-        arg2 = value;
-        arg3 = 0;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
       return false;
-    }
     break;
 
   case SM_PROGRAM:
@@ -1443,10 +1405,6 @@ static bool match_event(char **str, key_bind_t *e) {
     if (!match_value(str, note_names, ARRAY_COUNT(note_names), &arg2))
       return false;
 
-    // version earlier than 1.7 needs to convert note names
-    if (map_version < 0x01070000) {
-      arg2 -= 12;
-    }
 
     // default pressure is 127
     if (!match_number(str, &arg3))
@@ -1548,7 +1506,7 @@ static int config_parse_keymap_line(char *s, byte override_key = 0) {
       return 0;
     }
 
-    else if (action == BIND_TYPE_COLOR) {
+    else if (action == BIND_TYPE_COLOR) { //botoian kolorea
       uint key = 0;
       int r = 0;
       int g = 0;
@@ -1586,7 +1544,7 @@ static int config_parse_keymap_line(char *s, byte override_key = 0) {
     }
     return 0;
   }
-  else if (match_word(&s, "FreePiano")) {
+  else if (match_word(&s, "SoinuTxikiBirtuala")) {
     int version = 0;
     if (match_version(&s, &version)) {
       map_version = version;
@@ -1987,7 +1945,7 @@ char* config_save_keymap(uint lang) {
   map_language = lang < FP_LANG_COUNT ? lang : lang_get_current();
 
   // save map version
-  s += print_format(s, end - s, "FreePiano");
+  s += print_format(s, end - s, "SoinuTxikiBirtuala");
   s += print_version(s, end - s, map_current_version, " ");
   s += print_format(s, end - s, "\r\n\r\n");
 
@@ -2218,6 +2176,12 @@ int config_load(const char *filename) {
         match_value(&s, boolean_names, ARRAY_COUNT(boolean_names), &enable);
         config_set_enable_hotkey(enable != 0);
       }
+	  // INACTIVE
+      else if (match_word(&s, "inactive")) {
+        uint enable = 0;
+        match_value(&s, boolean_names, ARRAY_COUNT(boolean_names), &enable);
+        config_set_enable_inactive(enable != 0);
+      }
       else if (match_word(&s, "key-fade")) {
         uint value = 0;
         match_number(&s, &value);
@@ -2249,6 +2213,12 @@ int config_load(const char *filename) {
         int value = 0;
         match_version(&s, &value);
         config_set_update_version(value);
+      }
+      else if (match_word(&s, "language")) {
+        uint value = 0;
+        match_number(&s, &value);
+        gui_set_language(value);
+
       }
     }
 
@@ -2301,6 +2271,8 @@ int config_save(const char *filename) {
 
   if (global.midi_transpose)
     fprintf(fp, "midi transpose %d\r\n", global.midi_transpose);
+    
+  fprintf(fp, "language %d\r\n", lang_get_current());
 
   for (auto it = global.midi_inputs.begin(); it != global.midi_inputs.end(); ++it) {
     if (it->second.enable) {
@@ -2310,6 +2282,10 @@ int config_save(const char *filename) {
 
   if (!config_get_enable_hotkey())
     fprintf(fp, "hotkey disable\r\n");
+    
+  //XAM inactive
+  if (!config_get_enable_inactive())
+    fprintf(fp, "inactive disable\r\n");
 
   if (!config_get_enable_resize_window())
     fprintf(fp, "resize disable\r\n");
@@ -2446,25 +2422,36 @@ void config_set_enable_resize_window(bool enable) {
   global.enable_resize = enable;
 }
 
-// get enable resize windwo
+// get enable resize window
 bool config_get_enable_resize_window() {
   thread_lock lock(config_lock);
 
   return global.enable_resize != 0;
 }
 
-// set enable resize window
 void config_set_enable_hotkey(bool enable) {
   thread_lock lock(config_lock);
 
   global.enable_hotkey = enable;
 }
 
-// get enable resize windwo
 bool config_get_enable_hotkey() {
   thread_lock lock(config_lock);
 
   return global.enable_hotkey != 0;
+}
+
+//XAM inactive
+void config_set_enable_inactive(bool enable) {
+  thread_lock lock(config_lock);
+
+  global.enable_inactive = enable;
+}
+
+bool config_get_enable_inactive() {
+  thread_lock lock(config_lock);
+
+  return global.enable_inactive != 0;
 }
 
 bool config_get_midi_transpose() {

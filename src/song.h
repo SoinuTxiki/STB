@@ -6,7 +6,7 @@
 #define SMS_KEY_LABEL             0x02
 #define SMS_KEY_COLOR             0x03
 
-// FreePiano 1.0 messages
+//  1.0 messages
 #define SM_SYSTEM                 0x00
 #define SM_KEY_SIGNATURE          0x01
 #define SM_OCTAVE                 0x02
@@ -17,19 +17,19 @@
 #define SM_RECORD                 0x07
 #define SM_STOP                   0x08
 
-// FreePiano 1.1 messages
+//  1.1 messages
 #define SM_SETTING_GROUP          0x09
 #define SM_SETTING_GROUP_COUNT    0x0a
 #define SM_AUTO_PEDAL_OBSOLETE    0x0b
 #define SM_DELAY_KEYUP_OBSOLETE   0x0c
 
-// FreePiano 1.7 messages
+//  1.7 messages
 #define SM_TRANSPOSE              0x0d
 
 // for compatibility
 #define SM_CONTROLLER_DEPRECATED  0x0e
 
-// FreePiano 1.8 messages
+//  1.8 messages
 #define SM_NOTE_OFF               0x10
 #define SM_NOTE_ON                0x11
 #define SM_NOTE_PRESSURE          0x12
@@ -95,6 +95,8 @@ struct song_info_t {
 // send event message
 void song_send_event(byte a, byte b, byte c, byte d, bool record = false);
 
+byte trans_kc_led(byte c);
+
 // output event
 void song_output_event(byte a, byte b, byte c, byte d);
 
@@ -142,9 +144,6 @@ double song_get_play_speed();
 
 // song get play speed
 void song_set_play_speed(double speed);
-
-// open lyt
-int song_open_lyt(const char *filename);
 
 // close
 void song_close();

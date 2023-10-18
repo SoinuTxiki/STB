@@ -41,9 +41,6 @@ static song_info_t song_info;
 // song thread lock
 static thread_lock_t song_lock;
 
-// current version
-static uint current_version = 0x01080000;
-
 // -----------------------------------------------------------------------------------------
 // SYNC and DELAY event
 // -----------------------------------------------------------------------------------------
@@ -323,7 +320,11 @@ static void keyboard_event_color(int code, int length) {
 }
 
 // event message
+extern byte keyboard_status[256];
+extern uint current_setting;
 void song_send_event(byte a, byte b, byte c, byte d, bool record) {
+   //song_send_event(SM_SYSTEM, SMS_KEY_EVENT, code, keydown, true);
+	byte c2;
   thread_lock lock(song_lock);
 
   // record event
@@ -366,15 +367,55 @@ void song_send_event(byte a, byte b, byte c, byte d, bool record) {
   // color
   if (keyboard_color_key_code) {
     uint color = (a << 24) | (b << 16) | (c << 8) | d;
-    config_bind_set_color(keyboard_color_key_code, color);
+    config_bind_set_color(keyboard_color_key_code, color); //XAM TODO proatzea?);
     keyboard_color_key_code = 0;
     return;
   }
 
+
   // special events
   if (a == SM_SYSTEM) {
     switch (b) {
-     case SMS_KEY_EVENT: keyboard_send_event(c, d); break;
+	 case SMS_KEY_EVENT: {
+		 byte lednum = 0;
+		//keyboard_status[code] = keydown;
+		if ((c == 57) || (c == 184)) { //if any space pressed/depressed     //&& keyboard_status[c] != d
+			c2 = 57;
+			keyboard_send_event(57, d); //do action coresponding to space button
+						for (uint i = 0; i < 255; i++){
+				if (keyboard_status[i] == 1) {//for all the pressed keys, turn them off and back on with new color
+					lednum = trans_kc_led(i); //get lednum for code
+					LED_event(SM_MIDI_NOTEOFF + current_setting, lednum, 0, 0);//itzali 
+					LED_event(SM_MIDI_NOTEOFF + current_setting, lednum, 0, 0);
+					LED_event(SM_MIDI_NOTEON + current_setting, lednum, 255, 0);//piztu cuurent setting koloren
+					LED_event(SM_MIDI_NOTEON + current_setting, lednum, 255, 0);
+				}
+			}
+		}
+		else {
+			keyboard_send_event(c, d);
+			c2 = c;
+		}
+
+		lednum = trans_kc_led(c2);
+		switch (d) {
+		case 1: {//key pressed -> turn on
+			LED_event(SM_MIDI_NOTEON + current_setting, lednum, 255, 0);
+			LED_event(SM_MIDI_NOTEON + current_setting, lednum, 255, 0);
+		}
+				break;
+		default: {//key depressed -> turn off
+			LED_event(SM_MIDI_NOTEOFF + current_setting, lednum, 0, 0);
+			LED_event(SM_MIDI_NOTEOFF + current_setting, lednum, 0, 0);
+		}
+				break;
+		/*default: {
+			LED_event(0, 0, c, d);
+		}*/
+		}
+		
+	}
+	break;
      case SMS_KEY_MAP:   keyboard_event_map(c, d); break;
      case SMS_KEY_LABEL: keyboard_event_label(c, d); break;
      case SMS_KEY_COLOR: keyboard_event_color(c, d); break;
@@ -383,6 +424,70 @@ void song_send_event(byte a, byte b, byte c, byte d, bool record) {
   }
 
   song_output_event(a, b, c, d);
+}
+
+byte trans_kc_led(byte c) {//translate keycode to lednum
+	byte led;
+	switch (c) {
+	case 59:
+	case 60:
+	case 61:
+	case 62:
+	case 63:
+	case 64:
+	case 65:
+	case 66:
+	case 67:
+	case 68: {
+		led = c - 58;
+		break;
+	  }
+	case 87:
+	case 88: {
+		led = c - 76;
+		break;
+	  }
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13: {
+		led = c + 14;
+		break;
+	  }
+	case 33:
+	case 34:
+	case 35:
+	case 36:
+	case 37:
+	case 38: {
+		led = c + 16;
+		break;
+	  }
+	case 46:
+	case 47:
+	case 48:
+	case 49:
+	case 50:
+	case 51: {
+		led = c + 16;
+		break;
+	  }
+	case 57: {//space
+		led = 76;
+		break;
+	}
+	default: { led = 0;
+		break;
+	  }
+	}
+	return led;
 }
 
 static void output_controller(byte a, byte b, byte c, byte d, byte id) {
@@ -505,7 +610,7 @@ void song_output_event(byte a, byte b, byte c, byte d) {
      }
 
      value = translate_value(op, value, change);
-     value = wrap_value(value, -1, 1);
+     value = wrap_value(value, -1, 3); //XAM oktabak -1etik 3aino
      config_set_key_octshift(ch, value);
    }
    break;
@@ -769,7 +874,7 @@ static void song_init_record() {
   record_position = song_event_buffer;
   play_position = NULL;
   song_end = song_event_buffer;
-  song_info.version = current_version;
+  song_info.version = APP_VERSION;
   song_info.author[0] = 0;
   song_info.title[0] = 0;
   song_info.comment[0] = 0;
@@ -925,7 +1030,87 @@ bool song_is_recording() {
 
 // start playback
 void song_start_playback() {
-  thread_lock lock(song_lock);
+	thread_lock lock(song_lock);
+	//HID XAM
+	/*int res;
+	unsigned char buf[33];
+	//wchar_t wstr[255];
+	hid_device *handle;
+	hid_device *dev = NULL; // HIDAPI device we will open
+
+	uint16_t vid = 0;        // productId
+	uint16_t pid = 0;        // vendorId
+	uint16_t usage_page = 0; // usagePage to search for, if any
+	uint16_t usage = 0;      // usage to search for, if any
+	wchar_t serial_wstr[1024 / 4] = { L'\0' }; // serial number string rto search for, if any
+	char devpath[1024];   // path to open, if filter by usage*/
+	//  int i;
+
+	// Initialize the hidapi library
+	/*res = hid_init();
+	// Open the device using the VID, PID,
+	// and optionally the Serial number.
+	struct hid_device_info *devs, *cur_dev;
+	devs = hid_enumerate(0x0C45, 0x5004);
+	while (cur_dev) {
+		if ((!vid || cur_dev->vendor_id == vid) &&
+			(!pid || cur_dev->product_id == pid) &&
+			(!usage_page || cur_dev->usage_page == usage_page) &&
+			(!usage || cur_dev->usage == usage) &&
+			(serial_wstr[0] == L'\0' || wcscmp(cur_dev->serial_number, serial_wstr) == 0)) {
+			strncpy(devpath, cur_dev->path, 1024); // save it!
+		}
+		cur_dev = cur_dev->next;
+	}
+	hid_free_enumeration(devs);
+	if (devpath[0]) {
+		dev = hid_open_path(devpath);
+		if (dev == NULL) {
+
+			 //msg("Error: could not open device\n");
+		}
+		else {
+			//msg("Device opened\n");
+			buf[0] = 0x0;//DUMMY
+			buf[1] = 0x08;//LEDS OFF
+			buf[2] = 0x00;//
+			res = hid_write(dev, buf, 32);
+			hid_close(dev); 
+		}
+	}
+	else {
+
+		//msg("Error: no matching devices\n");
+	}
+	hid_exit();*/
+	//XAM: MIDI bidez Ledak kontolatzeko saiakera 
+	int result = -1;
+	result = midi_open_output("IX10");//IX10
+
+	LED_event(SM_MIDI_CONTROLLER , 0, 0, 0);//All off
+	
+
+#ifdef _DEBUG
+	fprintf(stdout, "MIDI_opened!: %02x\n", result);
+#endif
+	//XAM: result = 0 if opened correctly
+	//if (result == 0) {////hau hemen in partez berezko lekun in funtzio bat ad_hoc ta horrei dettu
+		//global.instrument_type = INSTRUMENT_TYPE_MIDI;
+		//strncpy(global.instrument_path, "IX10", sizeof(global.instrument_path));
+	//}
+
+	/*handle = hid_open(0x0C45, 0x5004, NULL);
+	if (!handle) {
+		//printf("Unable to open device\n");
+		hid_exit();
+	} else {
+		buf[0] = 0x0;//DUMMY
+		buf[1] = 0x08;//LEDS OFF
+		buf[2] = 0x00;//
+		res = hid_write(handle, buf, 32);
+		hid_close(handle);
+	}
+    hid_exit();*/
 
   if (song_end) {
     song_stop_record();
@@ -1038,6 +1223,7 @@ void song_update(double time_elapsed) {
       if (play_position) {
         if (++play_position >= song_end) {
           song_stop_playback();
+		  LED_event(SM_MIDI_CONTROLLER, 0, 0, 0);//XAM all LEDS OFF
         }
       }
     } else break;
@@ -1112,257 +1298,6 @@ static void read_idp_string(char *buff, size_t buff_size, FILE *fp) {
   } else   {
     throw -1;
   }
-}
-
-// open lyt
-int song_open_lyt(const char *filename) {
-  thread_lock lock(song_lock);
-
-  song_close();
-
-  FILE *fp = fopen(filename, "rb");
-  try {
-    char header[16];
-
-    if (!fp)
-      return -1;
-
-    // read magic
-    read(header, 16, fp);
-    if (strcmp(header, "iDreamPianoSong") != 0)
-      throw -1;
-
-    // start record
-    song_init_record();
-
-    // read header
-    read(&song_info.version, sizeof(song_info.version), fp);
-    read_idp_string(song_info.title, 39, fp);
-    read_idp_string(song_info.author, 19, fp);
-    read_idp_string(song_info.comment, 255, fp);
-
-    // keymapping
-    struct keymap_t {
-      int midi_shift;
-      int velocity_right;
-      int velocity_left;
-      int shift_right;
-      int shift_left;
-      int unknown1;
-      int unknown2;
-      int voice1;
-      int unknown3;
-      int voice2;
-      int unknown4;
-    };
-
-
-    keymap_t map;
-    read(&map, sizeof(map), fp);
-
-    // record set params command
-    song_add_event(0, SM_KEY_SIGNATURE, SM_VALUE_SET, map.midi_shift, 0);
-    song_add_event(0, SM_OCTAVE, 0, SM_VALUE_SET, map.shift_left);
-    song_add_event(0, SM_OCTAVE, 1, SM_VALUE_SET, map.shift_right);
-    song_add_event(0, SM_VELOCITY, 0, SM_VALUE_SET, map.velocity_left);
-    song_add_event(0, SM_VELOCITY, 1, SM_VALUE_SET, map.velocity_right);
-
-    // push down padel
-    if (map.voice1 > 0 || map.voice2 > 0)
-      song_add_event(0, 0xb0, 0x40, 127, 0);
-
-    if (song_info.version > 1) {
-      static const byte keycode[] = {
-        DIK_ESCAPE,
-        DIK_F1,
-        DIK_F2,
-        DIK_F3,
-        DIK_F4,
-        DIK_F5,
-        DIK_F6,
-        DIK_F7,
-        DIK_F8,
-        DIK_F9,
-        DIK_F10,
-        DIK_F11,
-        DIK_F12,
-        DIK_GRAVE,
-        DIK_1,
-        DIK_2,
-        DIK_3,
-        DIK_4,
-        DIK_5,
-        DIK_6,
-        DIK_7,
-        DIK_8,
-        DIK_9,
-        DIK_0,
-        DIK_MINUS,
-        DIK_EQUALS,
-        DIK_BACKSLASH,
-        DIK_BACKSPACE,
-        DIK_TAB,
-        DIK_Q,
-        DIK_W,
-        DIK_E,
-        DIK_R,
-        DIK_T,
-        DIK_Y,
-        DIK_U,
-        DIK_I,
-        DIK_O,
-        DIK_P,
-        DIK_LBRACKET,
-        DIK_RBRACKET,
-        DIK_RETURN,
-        DIK_CAPITAL,
-        DIK_A,
-        DIK_S,
-        DIK_D,
-        DIK_F,
-        DIK_G,
-        DIK_H,
-        DIK_J,
-        DIK_K,
-        DIK_L,
-        DIK_SEMICOLON,
-        DIK_APOSTROPHE,
-        DIK_LSHIFT,
-        DIK_Z,
-        DIK_X,
-        DIK_C,
-        DIK_V,
-        DIK_B,
-        DIK_N,
-        DIK_M,
-        DIK_COMMA,
-        DIK_PERIOD,
-        DIK_SLASH,
-        DIK_RSHIFT,
-        DIK_LCONTROL,
-        DIK_LWIN,
-        DIK_LMENU,
-        DIK_SPACE,
-        DIK_RMENU,
-        DIK_RWIN,
-        DIK_APPS,
-        DIK_RCONTROL,
-        DIK_WAKE,
-        DIK_SLEEP,
-        DIK_POWER,
-        DIK_SYSRQ,
-        DIK_SCROLL,
-        DIK_PAUSE,
-        DIK_INSERT,
-        DIK_HOME,
-        DIK_PGUP,
-        DIK_DELETE,
-        DIK_END,
-        DIK_PGDN,
-        DIK_UP,
-        DIK_LEFT,
-        DIK_DOWN,
-        DIK_RIGHT,
-        DIK_NUMLOCK,
-        DIK_NUMPADSLASH,
-        DIK_NUMPADSTAR,
-        DIK_NUMPADMINUS,
-        DIK_NUMPAD7,
-        DIK_NUMPAD8,
-        DIK_NUMPAD9,
-        DIK_NUMPADPLUS,
-        DIK_NUMPAD4,
-        DIK_NUMPAD5,
-        DIK_NUMPAD6,
-        DIK_NUMPAD1,
-        DIK_NUMPAD2,
-        DIK_NUMPAD3,
-        DIK_NUMPADENTER,
-        DIK_NUMPAD0,
-        DIK_NUMPADPERIOD,
-      };
-
-      static const int notes[] = { 0, 0, 2, 4, 5, 7, 9, 11 };
-      static const int shifts[] = { 0, 1, -1};
-
-      // set keymap
-      for (int i = 0; i < 107; i++) {
-        struct key_t {
-          int enabled;
-          byte note;
-          byte shift;
-          byte octive;
-          byte channel;
-
-          char unknown[0x44];
-        };
-
-        key_t key;
-        read(&key, sizeof(key), fp);
-
-        if (key.enabled && key.note) {
-          key_bind_t keydown, keyup;
-          keydown.a = SM_NOTE_ON;
-          keydown.b = (key.channel & 0xf);
-          keydown.c = 12 + key.octive * 12 + notes[key.note % 8] + shifts[key.shift % 3];
-          keydown.d = 127;
-
-          // add keymap event
-          song_add_event(0, SM_SYSTEM, SMS_KEY_MAP, keycode[i], 0);
-          song_add_event(0, keydown.a, keydown.b, keydown.c, keydown.d);
-        }
-      }
-
-
-
-      // keymap description
-      char keymap_description[240];
-      read_idp_string(keymap_description, 239, fp);
-    }
-
-    int unknown;
-    int event_count;
-    read(&unknown, sizeof(unknown), fp);
-    read(&event_count, sizeof(event_count), fp);
-
-
-    for (int i = 0; i < event_count; i++) {
-      int time;
-      int unknown;
-      byte type;
-      int key;
-
-      read(&time, sizeof(time), fp);
-      read(&unknown, sizeof(unknown), fp);
-
-      read(&type, sizeof(type), fp);
-      read(&key, sizeof(key), fp);
-
-      switch (type) {
-       case 1: song_add_event(time, SM_SYSTEM, SMS_KEY_EVENT, key, 1); break;      // keydown
-       case 2: song_add_event(time, SM_SYSTEM, SMS_KEY_EVENT, key, 0); break;      // keyup
-       case 3: song_add_event(time, SM_OCTAVE, 1, SM_VALUE_SET, key); break;       // set oct shift
-       case 4: song_add_event(time, SM_OCTAVE, 0, SM_VALUE_SET, key); break;       // set oct shift
-       case 5: song_add_event(time, SM_KEY_SIGNATURE, SM_VALUE_SET, key, 0); break;// set midi oct shift
-       case 18:    break;      // drum
-       case 19:    break;      // maybe song end.
-       default:
-         printf("unknown type : %d\t%d\t%d\n", time, type, key);
-      }
-    }
-
-    record_position = NULL;
-    fclose(fp);
-
-    // mark song protected
-    song_info.write_protected = true;
-  } catch (int err) {
-    song_end = NULL;
-    fclose(fp);
-    return err;
-  }
-
-  return 0;
 }
 
 
@@ -1463,12 +1398,12 @@ int song_open(const char *filename) {
     if (!fp)
       throw -1;
 
-    char magic[sizeof("FreePianoSong")];
+    char magic[sizeof("SoinuTxikiBirtualaSong")];
     char instrument[256];
 
     // magic
-    read(magic, sizeof("FreePianoSong"), fp);
-    if (memcmp(magic, "FreePianoSong", sizeof("FreePianoSong")) != 0)
+    read(magic, sizeof("SoinuTxikiBirtualaSong"), fp);
+    if (memcmp(magic, "SoinuTxikiBirtualaSong", sizeof("SoinuTxikiBirtualaSong")) != 0)
       throw -1;
 
     // start record
@@ -1476,7 +1411,7 @@ int song_open(const char *filename) {
 
     // version
     read(&song_info.version, sizeof(song_info.version), fp);
-    if (song_info.version > current_version)
+    if (song_info.version > APP_VERSION)
       throw -2;
 
     // song info
@@ -1508,9 +1443,6 @@ int song_open(const char *filename) {
     // mark song protected
     song_info.write_protected = true;
 
-    // check compatibility and perhaps upgrade to lastest version.
-    check_compatibility();
-
     return 0;
   } catch (int err) {
     song_end = NULL;
@@ -1532,10 +1464,10 @@ int song_save(const char *filename) {
       return -1;
     try {
       // magic
-      write("FreePianoSong", sizeof("FreePianoSong"), fp);
+      write("SoinuTxikiBirtualaSong", sizeof("SoinuTxikiBirtualaSong"), fp);
 
       // version
-      song_info.version = current_version;
+      song_info.version = APP_VERSION;
       write(&song_info.version, sizeof(song_info.version), fp);
 
       // song info

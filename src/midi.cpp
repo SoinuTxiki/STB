@@ -44,6 +44,12 @@ static std::multimap<byte, midi_keyup_t> key_up_map;
 byte midi_get_note_status(byte ch, byte note) {
     return note_states[ch & 0x0f][note & 0x7f];
 }
+void midi_inc_note_status(byte ch, byte note) {
+    note_states[ch & 0x0f][note & 0x7f]++;
+}
+void midi_dec_note_status(byte ch, byte note) {
+    note_states[ch & 0x0f][note & 0x7f]--;
+}
 
 // get key status
 byte midi_get_note_pressure(byte ch, byte note) {
@@ -104,9 +110,9 @@ static void CALLBACK midi_input_callback(HMIDIIN hMidiIn, UINT wMsg, DWORD_PTR d
 
     midi_in_device_t *device = (midi_in_device_t*)dwInstance;
 
+    byte op = a & 0xf0;
     // remap channel
     if (device->remap >= 1 && device->remap <= 16) {
-      byte op = a & 0xf0;
       byte ch = config_get_output_channel(device->remap - 1);
 
       a = op | ch;
@@ -114,11 +120,22 @@ static void CALLBACK midi_input_callback(HMIDIIN hMidiIn, UINT wMsg, DWORD_PTR d
       if (op == SM_MIDI_NOTEOFF || op == SM_MIDI_NOTEON) {
         if (config_get_midi_transpose())
           b = clamp_value((int)b + config_get_key_signature());
-      }
-    }
+      } else if (op == SM_MIDI_CONTROLLER) { //XAM CC
+		  if (b == 80) 
+		    config_set_key_signature(c); //XAM set key
+	  }
+    } else if (op == SM_MIDI_CONTROLLER) {//XAM CC
+		if (b == 80) 
+		  config_set_key_signature(c); //XAM set key
+   }
+
 
     song_send_event(a, b, c, d, true);
-  }
+  } /*else if (wMsg == MIM_LONGDATA) {
+	  
+    //uint data = (uint)dwParam1;
+    config_set_key_signature(config_get_key_signature()+1);//XAM increase key
+  }*/
 }
 
 // open input device
@@ -259,7 +276,7 @@ void midi_output_event(byte a, byte b, byte c, byte d) {
    break;
 
    case SM_MIDI_NOTEON: {
-     note_states[a & 0xf][b & 0x7f] = c;
+     note_states[a & 0xf][b & 0x7f] = 1; //c;
      note_pressure[a & 0xf][b & 0x7f] = c;
      song_trigger_sync(SONG_SYNC_FLAG_MIDI);
    }
@@ -294,10 +311,21 @@ void midi_output_event(byte a, byte b, byte c, byte d) {
     vsti_send_midi_event(a, b, c, d);
   }
   // send event to output device
-  else {
+  else { //XAM TODO: try to  send midi outputs always, for the kb to receive it and light leds
     thread_lock lock(midi_output_lock);
     if (midi_out_device) {
       midiOutShortMsg(midi_out_device, a | (b << 8) | (c << 16) | (d << 24));
     }
+  }//
+}
+
+void LED_event(byte a, byte b, byte c, byte d) {
+  thread_lock lock(midi_output_lock);
+  if (midi_out_device) {
+	midiOutShortMsg(midi_out_device, a | (b << 8) | (c << 16) | (d << 24));
+	
+#ifdef _DEBUG
+  fprintf(stdout, "MIDI OUT: %04x %02x %02x %02x %02x\n", GetTickCount(), a, b, c, d);
+#endif
   }
 }

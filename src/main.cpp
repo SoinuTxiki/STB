@@ -51,17 +51,17 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
   gui_show();
 
   // load default config
-  config_load("freepiano.cfg");
+  config_load("STB.cfg");
 
   // check for update
 #ifndef _DEBUG
   update_check_async();
 #endif
 
-  // open lyt
-  //song_open_lyt("test3.lyt");
-  //song_open("D:\\src\\freepiano\\trunk\\data\\song\\kiss the rain.fpm");
-  //export_mp4("test.mp4");
+  
+  //XAM init MIDI
+	int result = -1;
+	result = midi_open_output("IX10"); //try to open IX10
 
   MSG msg;
   while (GetMessage(&msg, NULL, NULL, NULL))
@@ -70,7 +70,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     DispatchMessage(&msg);
   }
 
-  config_save("freepiano.cfg");
+  config_save("STB.cfg");
 
   // shutdown keyboard
   keyboard_shutdown();

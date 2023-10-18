@@ -459,7 +459,7 @@ static LRESULT CALLBACK vst_editor_wndproc(HWND hWnd, UINT uMsg, WPARAM wParam, 
      break;
 
    case WM_TIMER: {
-     AEffect *effect = (AEffect *)GetWindowLong(hWnd, GWL_USERDATA);
+     AEffect *effect = (AEffect *)GetWindowLongPtr(hWnd, GWLP_USERDATA); //XAM
 
      if (effect) {
        effect->dispatcher(effect, DECLARE_VST_DEPRECATED(effIdle), 0, 0, 0, 0);
@@ -474,7 +474,7 @@ static LRESULT CALLBACK vst_editor_wndproc(HWND hWnd, UINT uMsg, WPARAM wParam, 
      break;
 
    case WM_DESTROY: {
-     AEffect *effect = (AEffect *)GetWindowLong(hWnd, GWL_USERDATA);
+     AEffect *effect = (AEffect *)GetWindowLongPtr(hWnd, GWLP_USERDATA); //XAM
 
      if (effect)
        effect->dispatcher(effect, effEditClose, 0, 0, 0, 0);
@@ -506,7 +506,7 @@ static HWND create_effect_window(AEffect *effect) {
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = "FreePianoVstEffect";
+    wc.lpszClassName = "SoinuTxikiBirtualaVstEffect";
     wc.hIconSm = NULL;
 
     RegisterClassEx(&wc);
@@ -518,10 +518,10 @@ static HWND create_effect_window(AEffect *effect) {
   effect->dispatcher(effect, effGetEffectName, 0, 0, effectName, 0);
 
   // create window
-  HWND hwnd = CreateWindow("FreePianoVstEffect", effectName, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
+  HWND hwnd = CreateWindow("SoinuTxikiBirtualaVstEffect", effectName, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
   if (hwnd) {
-    SetWindowLong(hwnd, GWL_USERDATA, (LONG)effect);
+    SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)effect);//XAM
 
     ERect *eRect = 0;
     effect->dispatcher(effect, effEditOpen, 0, 0, hwnd, 0);

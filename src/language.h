@@ -2,19 +2,22 @@
 
 #define FP_LANG_AUTO       -1
 #define FP_LANG_ENGLISH     0
-#define FP_LANG_SCHINESE    1
-#define FP_LANG_COUNT       2
+#define FP_LANG_EUS         1
+#define FP_LANG_SPANISH     2
+#define FP_LANG_COUNT       3
 
 // language string def
 #define STR_ENGLISH(id, str)  id,
-#define STR_SCHINESE(id, str) 
+#define STR_EUS(id, str) 
+#define STR_SPANISH(id, str) 
 enum StringIDs {
   FP_IDS_EMPTY,
 #include "language_strdef.h"
   FP_IDS_COUNT,
 };
 #undef STR_ENGLISH
-#undef STR_SCHINESE
+#undef STR_EUS
+#undef STR_SPANISH
 
 // initialize languages
 void lang_init();

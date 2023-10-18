@@ -43,7 +43,7 @@ static int display_height = 0;
 static bool display_dirty = true;
 
 // get display width
-int display_get_width() { return 752; }
+int display_get_width() { return 584; }
 int display_get_height() { return 336; }
 
 // vertex format
@@ -78,6 +78,7 @@ enum resource_type {
   edit_box,
   round_corner,
   logo,
+  keyboard_note_beltz,
 
   resource_count
 };
@@ -1152,6 +1153,8 @@ struct KeyboardState {
   char label[18];
   char label1[18];
   key_bind_t map;
+  byte BLACK;//XAM
+  byte RnL;//XAM Right /LEFT
 };
 
 struct MidiKeyState {
@@ -1177,134 +1180,164 @@ static void init_keyboard_states() {
     byte action;
     float x;
     float y;
-  };
+	byte BLACK;//XAM: beltza dan eo ez
+	byte RnL;//XAM: eskubie dan eo ezkerra
+  };	
 
   static Key keys1[] = {
-    { 0,                3,  0.0f,   0.0f,   },
-    { DIK_ESCAPE,       0,  1.0f,   1.0f,   },
-    { 0,                0,  1.0f,   0.0f,   },
-    { DIK_F1,           0,  1.0f,   1.0f,   },
-    { DIK_F2,           0,  1.0f,   1.0f,   },
-    { DIK_F3,           0,  1.0f,   1.0f,   },
-    { DIK_F4,           0,  1.0f,   1.0f,   },
-    { 0,                0,  0.5f,   0.0f    },
-    { DIK_F5,           0,  1.0f,   1.0f,   },
-    { DIK_F6,           0,  1.0f,   1.0f,   },
-    { DIK_F7,           0,  1.0f,   1.0f,   },
-    { DIK_F8,           0,  1.0f,   1.0f,   },
-    { 0,                0,  0.5f,   0.0f,   },
-    { DIK_F9,           0,  1.0f,   1.0f,   },
-    { DIK_F10,          0,  1.0f,   1.0f,   },
-    { DIK_F11,          0,  1.0f,   1.0f,   },
-    { DIK_F12,          0,  1.0f,   1.0f,   },
-    { 0,                1,  0.0f,   1.2f,   },
-    { DIK_GRAVE,        0,  1.0f,   1.0f,   },
-    { DIK_1,            0,  1.0f,   1.0f,   },
-    { DIK_2,            0,  1.0f,   1.0f,   },
-    { DIK_3,            0,  1.0f,   1.0f,   },
-    { DIK_4,            0,  1.0f,   1.0f,   },
-    { DIK_5,            0,  1.0f,   1.0f,   },
-    { DIK_6,            0,  1.0f,   1.0f,   },
-    { DIK_7,            0,  1.0f,   1.0f,   },
-    { DIK_8,            0,  1.0f,   1.0f,   },
-    { DIK_9,            0,  1.0f,   1.0f,   },
-    { DIK_0,            0,  1.0f,   1.0f,   },
-    { DIK_MINUS,        0,  1.0f,   1.0f,   },
-    { DIK_EQUALS,       0,  1.0f,   1.0f,   },
-    { DIK_BACK,         0,  2.0f,   1.0f,   },
-    { 0,                1,  0.0f,   1.0f,   },
-    { DIK_TAB,          0,  1.5f,   1.0f,   },
-    { DIK_Q,            0,  1.0f,   1.0f,   },
-    { DIK_W,            0,  1.0f,   1.0f,   },
-    { DIK_E,            0,  1.0f,   1.0f,   },
-    { DIK_R,            0,  1.0f,   1.0f,   },
-    { DIK_T,            0,  1.0f,   1.0f,   },
-    { DIK_Y,            0,  1.0f,   1.0f,   },
-    { DIK_U,            0,  1.0f,   1.0f,   },
-    { DIK_I,            0,  1.0f,   1.0f,   },
-    { DIK_O,            0,  1.0f,   1.0f,   },
-    { DIK_P,            0,  1.0f,   1.0f,   },
-    { DIK_LBRACKET,     0,  1.0f,   1.0f,   },
-    { DIK_RBRACKET,     0,  1.0f,   1.0f,   },
-    { DIK_BACKSLASH,    0,  1.5f,   1.0f,   },
-    { 0,                1,  0.0f,   1.0f,   },
-    { DIK_CAPITAL,      0,  1.75f,  1.0f,   },
-    { DIK_A,            0,  1.0f,   1.0f,   },
-    { DIK_S,            0,  1.0f,   1.0f,   },
-    { DIK_D,            0,  1.0f,   1.0f,   },
-    { DIK_F,            0,  1.0f,   1.0f,   },
-    { DIK_G,            0,  1.0f,   1.0f,   },
-    { DIK_H,            0,  1.0f,   1.0f,   },
-    { DIK_J,            0,  1.0f,   1.0f,   },
-    { DIK_K,            0,  1.0f,   1.0f,   },
-    { DIK_L,            0,  1.0f,   1.0f,   },
-    { DIK_SEMICOLON,    0,  1.0f,   1.0f,   },
-    { DIK_APOSTROPHE,   0,  1.0f,   1.0f,   },
-    { DIK_RETURN,       0,  2.25f,  1.0f,   },
-    { 0,                1,  0.0f,   1.0f,   },
-    { DIK_LSHIFT,       0,  2.25,   1.0f,   },
-    { DIK_Z,            0,  1.0f,   1.0f,   },
-    { DIK_X,            0,  1.0f,   1.0f,   },
-    { DIK_C,            0,  1.0f,   1.0f,   },
-    { DIK_V,            0,  1.0f,   1.0f,   },
-    { DIK_B,            0,  1.0f,   1.0f,   },
-    { DIK_N,            0,  1.0f,   1.0f,   },
-    { DIK_M,            0,  1.0f,   1.0f,   },
-    { DIK_COMMA,        0,  1.0f,   1.0f,   },
-    { DIK_PERIOD,       0,  1.0f,   1.0f,   },
-    { DIK_SLASH,        0,  1.0f,   1.0f,   },
-    { DIK_RSHIFT,       0,  2.75f,  1.0f,   },
-    { 0,                1,  0.0f,   1.0f,   },
-    { DIK_LCONTROL,     0,  1.25,   1.0f,   },
-    { DIK_LWIN,         0,  1.25,   1.0f,   },
-    { DIK_LMENU,        0,  1.25,   1.0f,   },
-    { DIK_SPACE,        0,  6.00,   1.0f,   },
-    { DIK_RMENU,        0,  1.25,   1.0f,   },
-    { DIK_RWIN,         0,  1.25,   1.0f,   },
-    { DIK_APPS,         0,  1.25,   1.0f,   },
-    { DIK_RCONTROL,     0,  1.50,   1.0f,   },
+	  //XAM: hashtag botoian posiziok, distribuziok, disposiziok
+    { 0,                3,  0.0f,   0.0f,   0, 1,},
+    { 0,                0,  0.75f, 0.0f,   0, 1,},//SEP_HORIZ
+    { 0,                0,  1.5f,   0.0f,   0, 1,},    
+    //{ 0,                0,  1.0f,   0.0f,   0, 1,},
+    { DIK_F1,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F2,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F3,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F4,           0,  1.0f,   1.0f,   0, 1,},
+    //{ 0,                0,  0.5f,   0.0f     1,},
+    { DIK_F5,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F6,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F7,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F8,           0,  1.0f,   1.0f,   0, 1,},
+    //{ 0,                0,  0.5f,   0.0f,   0, 1,},
+    { DIK_F9,           0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F10,          0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F11,          0,  1.0f,   1.0f,   0, 1,},
+    { DIK_F12,          0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  2.0f,   0.0f,   0, 1,},
+    { DIK_DELETE,       0,  1.0f,   1.0f,   0, 1,},	
 
-    { 0,                3,  15.45f, 0.0f,   },
-    { DIK_SYSRQ,        0,  1.0f,   1.0f,   },
-    { DIK_SCROLL,       0,  1.0f,   1.0f,   },
-    { DIK_PAUSE,        0,  1.0f,   1.0f,   },
-    { 0,                0,  -3.0f,  1.2f,   },
-    { DIK_INSERT,       0,  1.0f,   1.0f,   },
-    { DIK_HOME,         0,  1.0f,   1.0f,   },
-    { DIK_PGUP,         0,  1.0f,   1.0f,   },
-    { 0,                0,  -3.0f,  1.0f,   },
-    { DIK_DELETE,       0,  1.0f,   1.0f,   },
-    { DIK_END,          0,  1.0f,   1.0f,   },
-    { DIK_PGDN,         0,  1.0f,   1.0f,   },
-    { 0,                0,  -2.0f,  2.0f,   },
-    { DIK_UP,           0,  1.0f,   1.0f,   },
-    { 0,                0,  -2.0f,  1.0f,   },
-    { DIK_LEFT,         0,  1.0f,   1.0f,   },
-    { DIK_DOWN,         0,  1.0f,   1.0f,   },
-    { DIK_RIGHT,        0,  1.0f,   1.0f,   },
+    { 0,                1,  0.0f,   1.0f,   0, 1,},//XAM:1.0 hoi da aurreko filakiko separazio bertikala TODO, pixkat haundittu igual?
+    { 0,                0,  0.75f, 0.0f,   0, 1,},//SEP_HORIZ
+    { 0,                0,  1.0f,   0.0f,   0, 1,},    
+    { 0,                0,  1.0f,   0.0f,   0, 1,},    
+    { DIK_2,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_3,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_4,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_5,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_6,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_7,            0,  1.0f,   1.0f,   0, 1,},//XAM normalen beltza kandidate
+    { DIK_8,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_9,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_0,            0,  1.0f,   1.0f,   0, 1,},
+    { DIK_MINUS,        0,  1.0f,   1.0f,   0, 1,},
+    { DIK_EQUALS,       0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  2.5f,   0.0f,   0, 1,},
+    { DIK_HOME,         0,  1.0f,   1.0f,   0, 1,},
 
-    { 0,                3,  18.9f,  1.2f,   },
-    { DIK_NUMLOCK,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPADSLASH,  0,  1.0f,   1.0f,   },
-    { DIK_NUMPADSTAR,   0,  1.0f,   1.0f,   },
-    { DIK_NUMPADMINUS,  0,  1.0f,   1.0f,   },
-    { 0,                0,  -4.0f,  1.0f,   },
-    { DIK_NUMPAD7,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD8,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD9,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPADPLUS,   0,  1.0f,   2.0f,   },
-    { 0,                0,  -4.0f,  1.0f,   },
-    { DIK_NUMPAD4,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD5,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD6,      0,  1.0f,   1.0f,   },
-    { 0,                0,  -3.0f,  1.0f,   },
-    { DIK_NUMPAD1,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD2,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPAD3,      0,  1.0f,   1.0f,   },
-    { DIK_NUMPADENTER,  0,  1.0f,   2.0f,   },
-    { 0,                0,  -4.0f,  1.0f,   },
-    { DIK_NUMPAD0,      0,  2.0f,   1.0f,   },
-    { DIK_NUMPADPERIOD, 0,  1.0f,   1.0f,   },
+
+    { 0,                1,  0.0f,   1.0f,   0, 1,},
+    { 0,                0,  0.75f, 0.0f,   0, 1,},//SEP_HORIZ
+    { 0,                0,  1.5f,   0.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_Q,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_W,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_E,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_R,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_T,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_Y,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_U,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_I,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_O,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_P,            0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_LBRACKET,     0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  1.0f,   0.0f,   0, 1,},//{ DIK_RBRACKET,     0,  1.0f,   1.0f,   0, 1,},
+    { 0,                0,  2.0f,   0.0f,   0, 1,},//{ DIK_BACKSLASH,    0,  1.5f,   1.0f,   0, 1,},
+    { DIK_PGUP,         0,  1.0f,   1.0f,   0, 1,},
+
+    { 0,                1,  0.0f,   1.0f,   0, 0,},
+    { 0,                0,  0.75f, 0.0f,   0, 0,},//SEP_HORIZ
+    { 0,                0,  1.5f,   0.0f,   0, 0,},//{ DIK_CAPITAL,      0,  1.75f,  1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_A,            0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_S,            0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_D,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_F,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_G,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_H,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_J,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_K,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_L,            0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_SEMICOLON,    0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_APOSTROPHE,   0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  3.0f,   0.0f,   0, 0,},//{ DIK_RETURN,       0,  2.25f,  1.0f,   0, 0,},
+    { DIK_PGDN,         0,  1.0f,   1.0f,   0, 0,},
+
+    { 0,                1,  0.0f,   1.0f,   0, 0,},
+    { 0,                0,  0.75f, 0.0f,   0, 0,},//SEP_HORIZ
+    { 0,                0,  2.5f,   0.0f,   0, 0,},//{ DIK_LSHIFT,       0,  2.25,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_Z,            0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_X,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_C,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_V,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_B,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_N,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_M,            0,  1.0f,   1.0f,   0, 0,},
+    { DIK_COMMA,        0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_PERIOD,       0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.0f,   0.0f,   0, 0,},//{ DIK_SLASH,        0,  1.0f,   1.0f,   0, 0,},
+    { 0,                0,  1.25f,   0.0f,   0, 0,},//{ DIK_RSHIFT,       0,  1.25f,  1.0f,   0, 0,},
+    { 0,                0,  1.75f,   0.0f,   0, 0,},//{ DIK_UP,           0,  1.25f,   1.0f,   0, 0,},
+    { DIK_END,          0,  1.0f,   1.0f,   0, 0,},//1.25
+
+
+    { 0,                1,  0.0f,   1.0f,   0, 0,},
+    { 0,                0,  0.75f, 0.0f,   0, 0,},//SEP_HORIZ
+    { 0,                0,  1.25f,  0.0f,   0, 0,},//{ DIK_LCONTROL,     0,  1.25,   1.0f,   0, 0,},
+    { 0,                0,  3.25f,  0.0f,   0, 0,},//{ DIK_LWIN,         0,  1.25,   1.0f,   0, 0,},
+    ////{ DIK_LMENU,        0,  1.25,   1.0f,   0, 0,},
+    { DIK_SPACE,        0,  6.0,   0.65f,   0, 0,},//6.25 //beltza kandidate candidate
+    ////{ DIK_RMENU,        0,  1.25,   1.0f,   0, 0,},
+    //{ DIK_RWIN,         0,  1.25,   1.0f,   0, 0,},
+   // { DIK_APPS,         0,  1.25,   1.0f,   0, 0,},
+    /////{ DIK_RCONTROL,     0,  1.0,   1.0f,   0, 0,},
+    { 0,                0,  3.25f,   0.0f,   0, 0,},//{ DIK_LEFT,         0,  1.25f,   1.0f,   0, 0,},
+    { 0,                0,  1.75f,   0.0f,   0, 0,},//{ DIK_DOWN,         0,  1.25f,   1.0f,   0, 0,},
+    { DIK_RIGHT,        0,  1.0f,    1.0f,   0, 0,},
+
+	{ 0,                1,  0.0f,   2.3f,  0, 0,},
+    { 0,                0,  5.0f,   0.0f,   0, 0,},//SEP_HORIZ tonuako
+    { DIK_NUMPAD0,      0,  1.0f,   0.8f,   1, 0,},//tonue indikatzekok
+    { DIK_NUMPADPERIOD, 0,  1.0f,   0.8f,   1, 0,},//tonue indikatzekok
+
+    /*{ DIK_SYSRQ,        0,  1.0f,   1.0f,   0,},
+    { DIK_SCROLL,       0,  1.0f,   1.0f,   0,},
+    { DIK_PAUSE,        0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -3.0f,  1.2f,   0,},
+    { DIK_INSERT,       0,  1.0f,   1.0f,   0,},
+    { DIK_HOME,         0,  1.0f,   1.0f,   0,},
+    { DIK_PGUP,         0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -3.0f,  1.0f,   0,},
+    { DIK_DELETE,       0,  1.0f,   1.0f,   0,},
+    { DIK_END,          0,  1.0f,   1.0f,   0,},
+    { DIK_PGDN,         0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -2.0f,  2.0f,   0,},
+    { DIK_UP,           0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -2.0f,  1.0f,   0,},
+    { DIK_LEFT,         0,  1.0f,   1.0f,   0,},
+    { DIK_DOWN,         0,  1.0f,   1.0f,   0,},
+    { DIK_RIGHT,        0,  1.0f,   1.0f,   0,},
+
+    { 0,                3,  18.9f,  1.2f,   0,},
+    { DIK_NUMLOCK,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPADSLASH,  0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPADSTAR,   0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPADMINUS,  0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -4.0f,  1.0f,   0,},
+    { DIK_NUMPAD7,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD8,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD9,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPADPLUS,   0,  1.0f,   2.0f,   0,},
+    { 0,                0,  -4.0f,  1.0f,   0,},
+    { DIK_NUMPAD4,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD5,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD6,      0,  1.0f,   1.0f,   0,},
+    { 0,                0,  -3.0f,  1.0f,   0,},
+    { DIK_NUMPAD1,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD2,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPAD3,      0,  1.0f,   1.0f,   0,},
+    { DIK_NUMPADENTER,  0,  1.0f,   2.0f,   0,},
+    { 0,                0,  -4.0f,  1.0f,   0,},
+    { DIK_NUMPAD0,      0,  2.0f,   1.0f,   0,},
+    { DIK_NUMPADPERIOD, 0,  1.0f,   1.0f,   0,},*/
   };
 
   float x = 0;
@@ -1319,6 +1352,8 @@ static void init_keyboard_states() {
       state.y1 = round(13 + y * key_height);
       state.x2 = round(10 + x * key_width + key->x * key_width);
       state.y2 = round(13 + y * key_height + key->y * key_height);
+	  state.BLACK = key->BLACK;//XAM
+	  state.RnL = key->RnL;//XAM
       x += key->x;
     } else {
       if (key->action & 1) x = key->x; else x += key->x;
@@ -1386,8 +1421,6 @@ void display_default_skin() {
   for (int i = 0; i < resource_count; i++) {
     if (resources[i].texture)
       resources[i].texture->Release();
-
-#ifdef _DEBUG
     const char *default_skins[] = {
       "background.png",
       "notes.png",
@@ -1403,13 +1436,13 @@ void display_default_skin() {
       "edit_box.png",
       "round_corner.png",
       "logo.png",
+      "keyboard_note_beltz.png",
     };
 
     // try to load texture from develop path
     char temp[256];
-    _snprintf(temp, sizeof(temp), "..\\res\\%s", default_skins[i]);
+    _snprintf(temp, sizeof(temp), ".\\res\\%s", default_skins[i]);
     resources[i].texture = load_png_from_file(temp);
-#endif
 
     if (resources[i].texture == NULL)
       resources[i].texture = load_png_from_resource(MAKEINTRESOURCE(IDR_SKIN_RES0) + i);
@@ -1669,7 +1702,16 @@ static void update_keyboard(double fade) {
       config_bind_get_keydown(key - keyboard_states, &map, 1);
 
       // bg image
-      uint bg_image = map.a ? keyboard_note_up : keyboard_note_empty;
+	  uint bg_image;
+	  if (map.a) {
+		  if (key->BLACK==1) {//XAM botoi hoi beltza bada png beltzana jarri
+			  bg_image = keyboard_note_beltz;
+		  } else {
+			  bg_image = keyboard_note_up;
+		  }
+	  } else {
+		  bg_image = keyboard_note_empty;
+	  }
       if (key->bg_image != bg_image) {
         key->bg_image = bg_image;
         display_dirty = true;
@@ -1680,7 +1722,7 @@ static void update_keyboard(double fade) {
       int notename = -1;
       if (map.a == SM_NOTE_ON || map.a == SM_NOTE_OFF) {
         byte ch = map.b;
-        note = map.c + config_get_key_octshift(ch) * 12 + config_get_key_transpose(ch);
+        note = map.c + config_get_key_octshift(ch) * 12 + config_get_key_transpose(ch); //XAM: hemen emateu octshift hoi eztala 1 baino haundigoa izaten
 
         switch (config_get_note_display()) {
         case NOTE_DISPLAY_DOH:
@@ -1916,7 +1958,7 @@ static void update_midi_keyboard(double fade) {
 
 // draw midi keyboard
 static void draw_midi_keyboard() {
-  for (MidiKeyState *key = midi_key_states; key < midi_key_states + sizeof(midi_key_states) / sizeof(midi_key_states[0]); key++) {
+  for (MidiKeyState *key = midi_key_states; key < midi_key_states + 89 ; key++) { //XAM pianon tekaldu txikigoa test
     if (!key->black) {
       if (key->x2 > key->x1) {
         draw_image(midi_white_up, key->x1, key->y1, key->x2, key->y2, 0xffffffff);
@@ -1925,7 +1967,7 @@ static void draw_midi_keyboard() {
     }
   }
 
-  for (MidiKeyState *key = midi_key_states; key < midi_key_states + sizeof(midi_key_states) / sizeof(midi_key_states[0]); key++) {
+  for (MidiKeyState *key = midi_key_states; key < midi_key_states + 89; key++) {
     if (key->black) {
       if (key->x2 > key->x1) {
         draw_image(midi_black_up, key->x1, key->y1, key->x2, key->y2, 0xffffffff);
@@ -1939,14 +1981,10 @@ static void draw_midi_keyboard() {
 enum ControlCommands {
   CMD_NONE,
   CMD_SUSTAIN,
-  CMD_MIDI_KEY,
   CMD_RECORD,
   CMD_PLAY,
-  CMD_VELOCITY_LEFT,
-  CMD_VELOCITY_RIGHT,
   CMD_OCTSHIFT_LEFT,
   CMD_OCTSHIFT_RIGHT,
-  CMD_GROUP,
   CMD_TIME,
 };
 
@@ -1967,35 +2005,29 @@ static struct gui_control_t {
   uint color;
   char text[256];
 }
-controls[] = {
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_LABEL,    CMD_NONE,            0, 219, 44, 15, IDS_DISPLAY_GROUP },
-  { CTL_TEXTBOX,  CMD_GROUP,           0, 219, 38, 15  },
+controls[] = { //XAM hashtag botoian kontrolan distribuzio disposizio kolokazio posizio
+	///////////////////////////////////pos xy//size xy
+	
+  { CTL_GROUP,    CMD_NONE,            0, 224, 0, 25  },
+  { CTL_LABEL,    CMD_NONE,            0, 229, 70, 15, IDS_DISPLAY_SUSTAIN },
+  { CTL_TEXTBOX,  CMD_SUSTAIN,         0, 229, 32, 15  },
 
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_LABEL,    CMD_NONE,            0, 219, 50, 15, IDS_DISPLAY_SUSTAIN },
-  { CTL_TEXTBOX,  CMD_SUSTAIN,         0, 219, 38, 15  },
+  { CTL_GROUP,    CMD_NONE,            0, 224, 0, 25  },
+  { CTL_LABEL,    CMD_NONE,            0, 229, 44, 15, IDS_DISPLAY_KEY },
+  { CTL_BUTTON,   CMD_NONE,          0, 228, 38, 18, },//huekoa tonue azaltzeko
+  { CTL_BUTTON,   CMD_NONE,          0, 228, 38, 18, },//huekoa tonue azaltzeko
 
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_LABEL,    CMD_NONE,            0, 219, 34, 15, IDS_DISPLAY_KEY },
-  { CTL_TEXTBOX,  CMD_MIDI_KEY,        0, 219, 46, 15 },
+  { CTL_GROUP,    CMD_NONE,            0, 224, 0, 25  },
+  { CTL_BUTTON,   CMD_RECORD,          0, 228, 18, 18, },
+  { CTL_LABEL,    CMD_RECORD,          0, 229, 54, 15, IDS_DISPLAY_REC },
+  { CTL_TEXTBOX,  CMD_TIME,            0, 229, 44, 15 },
+  { CTL_BUTTON,   CMD_PLAY,            0, 228, 18, 18, },
+  { CTL_LABEL,    CMD_PLAY,            0, 229, 54, 15, IDS_DISPLAY_PLAY },
 
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_BUTTON,   CMD_RECORD,          0, 218, 18, 18, },
-  { CTL_LABEL,    CMD_RECORD,          0, 219, 34, 15, IDS_DISPLAY_REC },
-  { CTL_TEXTBOX,  CMD_TIME,            0, 219, 44, 15 },
-  { CTL_BUTTON,   CMD_PLAY,            0, 218, 18, 18, },
-  { CTL_LABEL,    CMD_PLAY,            0, 219, 38, 15, IDS_DISPLAY_PLAY },
-
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_LABEL,    CMD_NONE,            0, 219, 60, 15, IDS_DISPLAY_VELOCITY },
-  { CTL_TEXTBOX,  CMD_VELOCITY_LEFT,   0, 219, 38, 15 },
-  { CTL_TEXTBOX,  CMD_VELOCITY_RIGHT,  0, 219, 38, 15 },
-
-  { CTL_GROUP,    CMD_NONE,            0, 214, 0, 25  },
-  { CTL_LABEL,    CMD_NONE,            0, 219, 60, 15, IDS_DISPLAY_OCTSHIFT },
-  { CTL_TEXTBOX,  CMD_OCTSHIFT_LEFT,   0, 219, 38, 15 },
-  { CTL_TEXTBOX,  CMD_OCTSHIFT_RIGHT,  0, 219, 38, 15 },
+  { CTL_GROUP,    CMD_NONE,            0, 224, 0, 25  },
+  { CTL_LABEL,    CMD_NONE,            0, 229, 60, 15, IDS_DISPLAY_OCTSHIFT },
+  { CTL_TEXTBOX,  CMD_OCTSHIFT_RIGHT,  0, 229, 28, 15 },
+  { CTL_TEXTBOX,  CMD_OCTSHIFT_LEFT,   0, 229, 28, 15 },
 };
 
 static gui_control_t* find_control(uint type, uint command) {
@@ -2077,27 +2109,6 @@ static void update_keyboard_controls() {
       control_set_text(ctl, "-");
   }
 
-  // group
-  ctl = find_control(CTL_TEXTBOX, CMD_GROUP);
-  control_set_text(ctl, "%d", config_get_setting_group());
-
-  // midi key
-  ctl = find_control(CTL_TEXTBOX, CMD_MIDI_KEY);
-  switch (config_get_key_signature()) {
-   case 0:     control_set_text(ctl, "C(0)"); break;
-   case 1:     control_set_text(ctl, "bD(+1)"); break;
-   case 2:     control_set_text(ctl, "D(+2)"); break;
-   case 3:     control_set_text(ctl, "bE(+3)"); break;
-   case 4:     control_set_text(ctl, "E(+4)"); break;
-   case 5:     control_set_text(ctl, "F(+5)"); break;
-   case 6:     control_set_text(ctl, "#F(+6)"); break;
-   case 7:     control_set_text(ctl, "G(+7)"); break;
-   case -4:    control_set_text(ctl, "bA(-4)"); break;
-   case -3:    control_set_text(ctl, "A(-3)"); break;
-   case -2:    control_set_text(ctl, "bB(-2)"); break;
-   case -1:    control_set_text(ctl, "B(-1)"); break;
-   default:    control_set_text(ctl, "%d", config_get_key_signature()); break;
-  }
 
   // record
   ctl = find_control(CTL_BUTTON, CMD_RECORD);
@@ -2119,19 +2130,14 @@ static void update_keyboard_controls() {
     control_set_image(ctl, check_button_up, 0xff4d5c37);
   }
 
-  // velocity
-  ctl = find_control(CTL_TEXTBOX, CMD_VELOCITY_LEFT);
-  control_set_text(ctl, "%d", config_get_key_velocity(0));
-  ctl = find_control(CTL_TEXTBOX, CMD_VELOCITY_RIGHT);
-  control_set_text(ctl, "%d", config_get_key_velocity(1));
 
   // octshift
   {
     int s1 = config_get_key_octshift(0);
-    int s2 = config_get_key_octshift(1);
+    int s2 = config_get_key_octshift(1); //XAM: bajuna 
 
     ctl = find_control(CTL_TEXTBOX, CMD_OCTSHIFT_LEFT);
-    control_set_text(ctl, "%s%d", s1 > 0 ? "+" : s1 < 0 ? "-" : "", abs(s1));
+    control_set_text(ctl, "%s%d", s1 > 0 ? "+" : s1 < 0 ? "-" : "", abs(s1)); //s1 >0 bada +, bestela, <0 bada -, bestela, osea 0 bada ""
 
     ctl = find_control(CTL_TEXTBOX, CMD_OCTSHIFT_RIGHT);
     control_set_text(ctl, "%s%d", s2 > 0 ? "+" : s2 < 0 ? "-" : "", abs(s2));
@@ -2145,7 +2151,7 @@ static void draw_keyboard_controls() {
     gui_control_t &ctl = controls[i];
 
     switch (ctl.type) {
-      case CTL_GROUP:
+      case CTL_GROUP: //XAM TODO hau kendu leikela ustet
         draw_image_border(round_corner, ctl.x, ctl.y, ctl.x + ctl.w, ctl.y + ctl.h, 4, 4, 4, 4, 0xffffffff);
         break;
 
@@ -2208,10 +2214,9 @@ static void display_draw() {
       device->SetRenderTarget(0, surface);
       setup_matrix(0, 0, width, height);
       draw_image(background, 0, 0, (float)display_get_width(), (float)display_get_height(), 0xffffffff);
-      draw_image(logo, 624, 14, 624 + 115, 14 + 27, 0xffffffff);
+      draw_keyboard_controls(); //XAM: kontrols botoiak baino len dibujatu, tonun indikadorek ez tapatzeko
       draw_keyboard();
-      draw_midi_keyboard();
-      draw_keyboard_controls();
+      draw_midi_keyboard(); //Pianon tekladoa dibujatzeko
       surface->Release();
     }
 
@@ -2430,12 +2435,9 @@ static int find_control_button(int x, int y) {
 void dispatch_command(int command, int action) {
   switch (command) {
    case CMD_SUSTAIN:
-     song_send_event(SM_SUSTAIN, 0, SM_VALUE_FLIP, 127, true);
+     song_send_event(SM_SUSTAIN, 0, action, 10, true); //XAM, 127 zeo ta 10ea jetxiet TODO: flip partez inc?
      break;
 
-   case CMD_MIDI_KEY:
-     song_send_event(SM_KEY_SIGNATURE, action, 1, 0, true);
-     break;
 
    case CMD_RECORD:
      if (song_is_recording())
@@ -2451,13 +2453,7 @@ void dispatch_command(int command, int action) {
        song_start_playback();
      break;
 
-   case CMD_VELOCITY_LEFT:
-     song_send_event(SM_VELOCITY, 0, action, 10, true);
-     break;
-
-   case CMD_VELOCITY_RIGHT:
-     song_send_event(SM_VELOCITY, 1, action, 10, true);
-     break;
+// XAM VELOCITY kenduta, igual rekuperatu leike?
 
    case CMD_OCTSHIFT_LEFT:
      song_send_event(SM_OCTAVE, 0, action, 1, true);
@@ -2467,9 +2463,6 @@ void dispatch_command(int command, int action) {
      song_send_event(SM_OCTAVE, 1, action, 1, true);
      break;
 
-   case CMD_GROUP:
-     song_send_event(SM_SETTING_GROUP, action, 1, 0, true);
-     break;
   }
 }
 
@@ -2602,7 +2595,7 @@ static int mouse_control(HWND window, uint msg, int x, int y, int z) {
     midinote = find_midi_note(x, y, &velocity);
 
     if (midinote != -1) {
-      midinote -= config_get_key_octshift(0) * 12;
+      midinote -= config_get_key_octshift(0) * 12; //XAM mousekin indakon oktaba beti 0koa hartzeula emateu
 
       if (!config_get_midi_transpose()) {
 

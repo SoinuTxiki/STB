@@ -641,7 +641,7 @@ static INT_PTR CALLBACK settings_play_proc(HWND hWnd, UINT uMsg, WPARAM wParam, 
     break;
 
   case WM_ACTIVATE:
-    if (WA_INACTIVE != LOWORD(wParam))
+    if (WA_INACTIVE != LOWORD(wParam)) //XAM inactive eztanen ze in ber dun, inactive danen eztula ingo emateu, TODO: proatzea
       refresh = true;
     break;
 
@@ -891,6 +891,7 @@ static INT_PTR CALLBACK settings_gui_proc(HWND hWnd, UINT uMsg, WPARAM wParam, L
 
      CheckDlgButton(hWnd, IDC_GUI_ENABLE_RESIZE, config_get_enable_resize_window());
      CheckDlgButton(hWnd, IDC_GUI_ENABLE_HOTKEY, !config_get_enable_hotkey());
+     CheckDlgButton(hWnd, IDC_GUI_ENABLE_INACTIVE, !config_get_enable_inactive()); //XAM inactive
      CheckDlgButton(hWnd, IDC_GUI_MIDI_TRANSPOSE, config_get_midi_transpose());
      CheckDlgButton(hWnd, IDC_GUI_INSTRUMENT_SHOW_MIDI, config_get_instrument_show_midi());
      CheckDlgButton(hWnd, IDC_GUI_INSTRUMENT_SHOW_VSTI, config_get_instrument_show_vsti());
@@ -931,6 +932,10 @@ static INT_PTR CALLBACK settings_gui_proc(HWND hWnd, UINT uMsg, WPARAM wParam, L
 
       case IDC_GUI_ENABLE_HOTKEY:
         config_set_enable_hotkey(!IsDlgButtonChecked(hWnd, IDC_GUI_ENABLE_HOTKEY));
+        break;
+		
+      case IDC_GUI_ENABLE_INACTIVE: //XAM
+        config_set_enable_inactive(!IsDlgButtonChecked(hWnd, IDC_GUI_ENABLE_INACTIVE));
         break;
 
       case IDC_GUI_MIDI_TRANSPOSE:
@@ -1220,7 +1225,8 @@ enum MENU_ID {
   MENU_ID_MIDI_INPUT_CHANNEL,
 
   MENU_ID_LANGUAGE_ENGLISH,
-  MENU_ID_LANGUAGE_CHINESE,
+  MENU_ID_LANGUAGE_EUS,
+  MENU_ID_LANGUAGE_SPANISH,
 };
 
 // init menu
@@ -1285,7 +1291,8 @@ static int menu_init() {
 
   // language menu
   AppendMenu(menu_language, MF_STRING, MENU_ID_LANGUAGE_ENGLISH, lang_load_string(IDS_MENU_LANGUAGE_ENGLISH));
-  AppendMenu(menu_language, MF_STRING, MENU_ID_LANGUAGE_CHINESE, lang_load_string(IDS_MENU_LANGUAGE_CHINESE));
+  AppendMenu(menu_language, MF_STRING, MENU_ID_LANGUAGE_EUS, lang_load_string(IDS_MENU_LANGUAGE_EUS));
+  AppendMenu(menu_language, MF_STRING, MENU_ID_LANGUAGE_SPANISH, lang_load_string(IDS_MENU_LANGUAGE_SPANISH));
 
   // Setting group menu
   AppendMenu(menu_setting_group, MF_POPUP, (UINT_PTR)menu_setting_group_change, lang_load_string(IDS_MENU_SETTING_GROUP_CHANGE));
@@ -1396,11 +1403,11 @@ int menu_on_command(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
      break;
 
    case MENU_ID_HELP_HOMEPAGE:
-     ShellExecute(NULL, "open", "http://freepiano.tiwb.com", NULL, NULL, 0);
+     ShellExecute(NULL, "open", "https://soinutxiki.blogspot.com/", NULL, NULL, 0);
      break;
 
    case MENU_ID_HELP_ONLINE:
-     ShellExecute(NULL, "open", "http://freepiano.tiwb.com/category/help", NULL, NULL, 0);
+     ShellExecute(NULL, "open", "https://soinutxiki.blogspot.com/", NULL, NULL, 0); //XAM TODO: help sekzioa jarri blogen freepiano dokumentazion oinarrituta?
      break;
 
    case MENU_ID_HELP_ABOUT:
@@ -1411,8 +1418,12 @@ int menu_on_command(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
      gui_set_language(FP_LANG_ENGLISH);
      break;
 
-   case MENU_ID_LANGUAGE_CHINESE:
-     gui_set_language(FP_LANG_SCHINESE);
+   case MENU_ID_LANGUAGE_EUS:
+     gui_set_language(FP_LANG_EUS);
+     break;
+
+   case MENU_ID_LANGUAGE_SPANISH:
+     gui_set_language(FP_LANG_SPANISH);
      break;
 
    case MENU_ID_FILE_OPEN: {
@@ -1423,10 +1434,7 @@ int menu_on_command(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
        song_close();
 
-       if (strcmp(extension, ".lyt") == 0)
-         try_open_song(song_open_lyt(temp));
-
-       else if (strcmp(extension, ".fpm") == 0)
+       if (strcmp(extension, ".stb") == 0)
          try_open_song(song_open(temp));
      }
    }
@@ -1438,7 +1446,7 @@ int menu_on_command(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
      if (result) {
        char temp[260];
        if (save_dialog(temp, sizeof(temp), lang_load_string(IDS_SAVE_FILTER_SONG), "song\\")) {
-         PathRenameExtension(temp, ".fpm");
+         PathRenameExtension(temp, ".stb");
          int result = song_save(temp);
 
          if (result != 0) {
@@ -1517,16 +1525,16 @@ int menu_on_command(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
        song_send_event(SM_SETTING_GROUP, 0, atoi(buff), 0, true);
      break;
 
-   case MENU_ID_SETTING_GROUP_ADD:
+   case MENU_ID_SETTING_GROUP_ADD: //XAM todo, hau kendu?
      config_set_setting_group_count(config_get_setting_group_count() + 1);
      config_set_setting_group(config_get_setting_group_count() - 1);
      break;
 
-   case MENU_ID_SETTING_GROUP_INSERT:
+   case MENU_ID_SETTING_GROUP_INSERT: //XAM todo, hau kendu?
      config_insert_setting_group(config_get_setting_group());
      break;
 
-   case MENU_ID_SETTING_GROUP_DEL:
+   case MENU_ID_SETTING_GROUP_DEL: //XAM todo, hau kendu?
      config_delete_setting_group(config_get_setting_group());
      break;
 
@@ -1879,19 +1887,7 @@ static INT_PTR CALLBACK key_setting_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
    break;
 
    case WM_ACTIVATE:
-     if (WA_INACTIVE == LOWORD(wParam)) {
-       preview_key = -1;
-       if (IsDlgButtonChecked(hWnd, IDC_KEY_SETTING_AUTOAPPLY)) {
-         if (need_apply) {
-           PostMessage(hWnd, WM_COMMAND, IDC_KEY_SETTING_BUTTON_APPLY, 0);
-         }
-       }
-       if (IsDlgButtonChecked(hWnd, IDC_KEY_SETTING_AUTOCLOSE)) {
-         PostMessage(hWnd, WM_CLOSE, 0, 0);
-       }
-     } else {
        helpers::refresh_controls(hWnd);
-     }
      break;
 
    case WM_CLOSE:
@@ -2115,11 +2111,11 @@ static void notify_new_upate(uint version) {
 
     int result = ::MessageBox(gui_get_window(), content, lang_load_string(IDS_NOTIFY_UPDATE_TITLE), MB_YESNO);
     if (result == IDYES) {
-      ShellExecute(NULL, "open", "http://freepiano.tiwb.com", NULL, NULL, 0);
+      ShellExecute(NULL, "open", "https://soinutxiki.blogspot.com/", NULL, NULL, 0);
     }
 
     config_set_update_version(version);
-    config_save("freepiano.cfg");
+    config_save("STB.cfg");
   }
 }
 // -----------------------------------------------------------------------------------------
@@ -2137,8 +2133,12 @@ static LRESULT CALLBACK windowproc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
      DragAcceptFiles(hWnd, TRUE);
      break;
 
-   case WM_ACTIVATE:
-     keyboard_enable(WA_INACTIVE != LOWORD(wParam));
+   case WM_ACTIVATE: //XAM: inactive konfigurazion arabera, erabat aktibo eo ez
+	   if(config_get_enable_inactive()) {
+         keyboard_enable(1);
+	   } else {
+		 keyboard_enable(WA_INACTIVE != LOWORD(wParam));
+	   }
      break;
 
    case WM_SIZE:
@@ -2231,12 +2231,8 @@ static LRESULT CALLBACK windowproc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
        const char *extension = PathFindExtension(filepath);
 
        // drop a music file
-       if (_stricmp(extension, ".lyt") == 0) {
-         try_open_song(song_open_lyt(filepath));
-         return 0;
-       }
 
-       if (_stricmp(extension, ".fpm") == 0) {
+       if (_stricmp(extension, ".stb") == 0) {
          try_open_song(song_open(filepath));
          return 0;
        }
@@ -2288,7 +2284,7 @@ int gui_init() {
   wc.hCursor = LoadCursor(NULL, IDC_ARROW);
   wc.hbrBackground = NULL;
   wc.lpszMenuName = NULL;
-  wc.lpszClassName = "FreePianoMainWindow";
+  wc.lpszClassName = "STBMainWindow";
   wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_SMALL));
 
   RegisterClassEx(&wc);
@@ -2310,7 +2306,7 @@ int gui_init() {
   AdjustWindowRect(&rect, style, FALSE);
 
   // create window
-  mainhwnd = CreateWindow("FreePianoMainWindow", APP_NAME, style,
+  mainhwnd = CreateWindow("STBMainWindow", APP_NAME, style,
                           rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
                           NULL, NULL, hInstance, NULL);
 #else
@@ -2325,7 +2321,7 @@ int gui_init() {
   AdjustWindowRect(&rect, style, TRUE);
 
   // create window
-  mainhwnd = CreateWindow("FreePianoMainWindow", APP_NAME, style,
+  mainhwnd = CreateWindow("STBMainWindow", APP_NAME, style,
                           rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
                           NULL, menu_main, hInstance, NULL);
 #endif

@@ -8,7 +8,9 @@ static const char* string_table[FP_LANG_COUNT][FP_IDS_COUNT];
 static WORD system_language(int lang_id) {
   switch (lang_id) {
   case FP_LANG_ENGLISH:  return MAKELANGID(LANG_ENGLISH, SUBLANG_NEUTRAL);
-  case FP_LANG_SCHINESE: return MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED);
+  case FP_LANG_EUS: return MAKELANGID(LANG_BASQUE, SUBLANG_BASQUE_BASQUE);
+  case FP_LANG_SPANISH: return MAKELANGID(LANG_SPANISH, SUBLANG_SPANISH);
+  default: return MAKELANGID(LANG_BASQUE, SUBLANG_BASQUE_BASQUE);
   }
   return MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL);
 }
@@ -23,10 +25,12 @@ void lang_init() {
   }
 
 #define STR_ENGLISH(id, str) string_table[FP_LANG_ENGLISH][id] = str; string_names[id] = #id;
-#define STR_SCHINESE(id, str) string_table[FP_LANG_SCHINESE][id] = str;
+#define STR_EUS(id, str) string_table[FP_LANG_EUS][id] = str;
+#define STR_SPANISH(id, str) string_table[FP_LANG_SPANISH][id] = str;
 #include "language_strdef.h"
 #undef STR_ENGLISH
-#undef STR_SCHINESE
+#undef STR_EUS
+#undef STR_SPANISH
 
   // auto choose language by default
   lang_set_current(FP_LANG_AUTO);
@@ -38,11 +42,14 @@ int lang_get_default() {
   switch (PRIMARYLANGID(id)) {
   case LANG_ENGLISH:
     return FP_LANG_ENGLISH;
+	
+  case LANG_BASQUE:
+    return FP_LANG_EUS;
 
-  case LANG_CHINESE:
-    return FP_LANG_SCHINESE;
+  case LANG_SPANISH:
+    return FP_LANG_SPANISH;
   }
-  return FP_LANG_ENGLISH;
+  return FP_LANG_EUS; //XAM defektuzko hizkuntza Euskera izateko
 }
 
 // select current language

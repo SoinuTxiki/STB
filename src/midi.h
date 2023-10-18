@@ -18,6 +18,7 @@ void midi_close_inputs();
 
 // send event
 void midi_output_event(byte a, byte b, byte c, byte d);
+void LED_event(byte a, byte b, byte c, byte d);
 
 // enum input
 void midi_enum_input(midi_enum_callback &callbcak);
@@ -30,6 +31,8 @@ void midi_reset();
 
 // get key status
 byte midi_get_note_status(byte ch, byte note);
+void midi_inc_note_status(byte ch, byte note);
+void midi_dec_note_status(byte ch, byte note);
 
 // get key status
 byte midi_get_note_pressure(byte ch, byte note);
